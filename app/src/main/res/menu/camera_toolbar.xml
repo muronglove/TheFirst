@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <item
+            android:id="@+id/camera_cancel_action"
+            android:title="Cancel"
+            app:showAsAction="always" />
+        <item
+            android:id="@+id/camera_add_action"
+            android:title="Add"
+            app:showAsAction="always"/>
+        <item
+            android:id="@+id/camera_save_action"
+            android:title="Save"
+            app:showAsAction="always"/>
+
+</menu>

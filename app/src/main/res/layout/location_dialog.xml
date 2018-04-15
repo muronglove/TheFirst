@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_marginLeft="10dp"
+            android:id="@+id/location_dialog_btn_cancle"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="取消"
+            android:gravity="center"
+            android:layout_alignParentLeft="true"
+            />
+        <TextView
+            android:id="@+id/location_dialog_tex_num"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="位置："/>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/location_dialog_tex_bedroom"
+            android:layout_weight="1"
+            android:layout_width="78dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:onClick="locationDaialogOnclick"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="卧室" />
+        <TextView
+            android:id="@+id/location_dialog_tex_parlor"
+            android:layout_weight="1"
+            android:layout_width="78dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:onClick="locationDaialogOnclick"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="客厅"
+            />
+        <TextView
+            android:id="@+id/location_dialog_tex_balcony"
+            android:layout_weight="1"
+            android:layout_width="78dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:onClick="locationDaialogOnclick"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="阳台"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/location_dialog_tex_warehouse"
+            android:layout_width="78dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:onClick="locationDaialogOnclick"
+            android:gravity="center"
+            android:text="仓库" />
+
+        <TextView
+            android:id="@+id/location_dialog_tex_company"
+            android:layout_width="78dp"
+            android:layout_height="39dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:onClick="locationDaialogOnclick"
+            android:gravity="center"
+            android:text="公司" />
+
+        <TextView
+            android:id="@+id/location_dialog_edi_else"
+            android:layout_width="78dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:onClick="locationDaialogOnclick"
+            android:gravity="center"
+            android:text="其他" />
+    </LinearLayout>
+</LinearLayout>
