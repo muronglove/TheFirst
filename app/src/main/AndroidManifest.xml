@@ -42,6 +42,8 @@
         <activity android:name=".Collection.AdviceDetailActivity" />
         <activity android:name=".ScanActivity" />
         <activity android:name=".TimeLineActivity" />
+        <activity android:name=".DisplayActivity"/>
+        <activity android:name=".SearchResultActivity"/>
         <activity
             android:name=".NewCamera"
             android:label="" />

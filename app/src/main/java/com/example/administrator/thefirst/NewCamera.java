@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,90 +67,86 @@ public class NewCamera extends AppCompatActivity {
     Menu menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_camera);
-        //创建数据库
-        dbHelper = new MyDatabaseHelper(this,"Storage.db",null,1);
-        dbHelper.getReadableDatabase();
+        try {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_new_camera);
+            //创建数据库
+            dbHelper = new MyDatabaseHelper(this, "Storage.db", null, 1);
+            dbHelper.getReadableDatabase();
 
-        Button btn_save = (Button)findViewById(R.id.camera_save_action);
-        btn_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                
+
+            Toolbar cameraToolbar = (Toolbar) findViewById(R.id.camera_toolbar);
+            setSupportActionBar(cameraToolbar);
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(false);
             }
-        });
 
-        Toolbar cameraToolbar = (Toolbar) findViewById(R.id.camera_toolbar);
-        setSupportActionBar(cameraToolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null){
-            actionBar.setDisplayHomeAsUpEnabled(false);
-        }
-
-
-        //扫码部分
-        Button btnScan=(Button)findViewById(R.id.camera_scan);
-        btnScan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new IntentIntegrator(NewCamera.this)
-                        .setCaptureActivity(ScanActivity.class)
-                        .setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES)// 扫码的类型,可选：一维码，二维码，一/二维码
-                        .setPrompt("请对准二维码")// 设置提示语
-                        .setCameraId(0)// 选择摄像头,可使用前置或者后置
-                        .setBeepEnabled(false)// 是否开启声音,扫完码之后会"哔"的一声
-                        .setBarcodeImageEnabled(true)// 扫完码之后生成二维码的图片
-                        .initiateScan();// 初始化扫码
-            }
-        });
-
-
-        Time t=new Time();
-        t.setToNow();   //取得系统时间
-        int year = t.year;
-        int month = t.month+1;
-        int date = t.monthDay;
-        int hour = t.hour;
-        int minute = t.minute;
-        final DateTimePicker picker=new DateTimePicker(this,DateTimePicker.HOUR_24);    //24小时制
-        picker.setDateRangeStart(year, month, date);//日期起点
-        picker.setDateRangeEnd(2020, 1,1);//日期终点
-        picker.setTimeRangeStart(hour, minute);//时间范围起点
-        picker.setTimeRangeEnd(23, 59);//时间范围终点
-        picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
-            @Override
-            public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
-                makeText(getApplicationContext(), year + "-" + month + "-" + day + " "
-                        + hour + ":" + minute, Toast.LENGTH_LONG).show();
-                java.text.DateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Button btn_date = (Button)findViewById(R.id.camera_date);
-                btn_date.setText("日期:"+year + "-" + month + "-" + day + " "
-                        + hour + ":" + minute);
-
-                try{
-                    Date d1  = df.parse(year+"-"+month+"-"+day+" "+hour+":"+minute+":00");
-                    Date d2 = new Date(System.currentTimeMillis());
-                    long diff = d1.getTime()-d2.getTime();
-                    Intent intent = new Intent(NewCamera.this,AlarmReceiver.class);
-                    intent.setAction("VIDEO_TIMER");
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(NewCamera.this,0,intent,0);
-                    AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
-                    am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime()+diff,pendingIntent);
-                }catch (Exception e){
-                    e.printStackTrace();
+            //扫码部分
+            Button btnScan = (Button) findViewById(R.id.camera_scan);
+            btnScan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new IntentIntegrator(NewCamera.this)
+                            .setCaptureActivity(ScanActivity.class)
+                            .setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES)// 扫码的类型,可选：一维码，二维码，一/二维码
+                            .setPrompt("请对准二维码")// 设置提示语
+                            .setCameraId(0)// 选择摄像头,可使用前置或者后置
+                            .setBeepEnabled(false)// 是否开启声音,扫完码之后会"哔"的一声
+                            .setBarcodeImageEnabled(true)// 扫完码之后生成二维码的图片
+                            .initiateScan();// 初始化扫码
                 }
-            }
-        });
+            });
 
 
-        Button btn_datereminder=findViewById(R.id.camera_date);
-        btn_datereminder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                picker.show();
-            }
-        });
+            Time t = new Time();
+            t.setToNow();   //取得系统时间
+            int year = t.year;
+            int month = t.month + 1;
+            int date = t.monthDay;
+            int hour = t.hour;
+            int minute = t.minute;
+            final DateTimePicker picker = new DateTimePicker(this, DateTimePicker.HOUR_24);    //24小时制
+            picker.setDateRangeStart(year, month, date);//日期起点
+            picker.setDateRangeEnd(2020, 1, 1);//日期终点
+            picker.setTimeRangeStart(hour, minute);//时间范围起点
+            picker.setTimeRangeEnd(23, 59);//时间范围终点
+            picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
+                @Override
+                public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
+                    makeText(getApplicationContext(), year + "-" + month + "-" + day + " "
+                            + hour + ":" + minute, Toast.LENGTH_LONG).show();
+                    java.text.DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Button btn_date = (Button) findViewById(R.id.camera_date);
+                    btn_date.setText("日期:" + year + "-" + month + "-" + day + " "
+                            + hour + ":" + minute);
+
+                    try {
+                        Date d1 = df.parse(year + "-" + month + "-" + day + " " + hour + ":" + minute + ":00");
+                        Date d2 = new Date(System.currentTimeMillis());
+                        long diff = d1.getTime() - d2.getTime();
+                        Intent intent = new Intent(NewCamera.this, AlarmReceiver.class);
+                        intent.setAction("VIDEO_TIMER");
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(NewCamera.this, 0, intent, 0);
+                        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+                        am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + diff, pendingIntent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+
+            Button btn_datereminder = findViewById(R.id.camera_date);
+            btn_datereminder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    picker.show();
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
     protected void onSaveInstanceState(Bundle outState){
@@ -170,7 +167,22 @@ public class NewCamera extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
+            //取消存储
             case  R.id.camera_cancel_action:
+                finish();
+                return true;
+                //存储到数据库
+            case R.id.camera_save_action:
+                ContentValues values = new ContentValues();
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
+                values.put("color", ((EditText) findViewById(R.id.camera_edittext)).getText().toString());
+                values.put("caption", ((EditText) findViewById(R.id.camera_edittext)).getText().toString());
+                values.put("tag", ((Button) findViewById(R.id.camera_label)).getText().toString());
+                values.put("cabinet", ((Button) findViewById(R.id.camera_select_number)).getText().toString());
+                values.put("image", output.toByteArray());
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                db.insert("storage", null, values);
                 finish();
                 return true;
         }
@@ -274,12 +286,12 @@ public class NewCamera extends AppCompatActivity {
             return info;
         }
 
-        @Override
-        protected void onPostExecute(BookInfo bookInfo) {
-            super.onPostExecute(bookInfo);
-            TextView textView=findViewById(R.id.txt_scan_result);
-            textView.setText(bookInfo.getAuthor()+"  "+bookInfo.getPrice());
-        }
+//        @Override
+//        protected void onPostExecute(BookInfo bookInfo) {
+//            super.onPostExecute(bookInfo);
+//            TextView textView=findViewById(R.id.txt_scan_result);
+//            textView.setText(bookInfo.getAuthor()+"  "+bookInfo.getPrice());
+//        }
     }
 
     public void show(View view){
