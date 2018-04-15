@@ -57,7 +57,7 @@ public class AdviceDetailActivity extends AppCompatActivity {
         protected List<Object> doInBackground(String... params) {
             List<Object> objlist = new ArrayList<>();
             try{
-                Document doc = Jsoup.connect(params[0]).get();
+                Document doc = Jsoup.connect("http:"+params[0]).get();
                 doc = Jsoup.parse(doc.toString().replace("&nbsp;", ""));
                 objlist.add(doc.select("h1").text());
                 objlist.add(doc.select(".artInfo").text());
