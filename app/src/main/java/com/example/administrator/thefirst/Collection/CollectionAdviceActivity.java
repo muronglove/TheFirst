@@ -161,7 +161,7 @@ public class CollectionAdviceActivity extends AppCompatActivity {
             try {
                 Bitmap bmp = null;
                 //Log.i("Dress",article.image);
-                URL url=new URL(advice.image);
+                URL url=new URL("http:"+advice.image);
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                 conn.setDoInput(true);
                 conn.connect();
