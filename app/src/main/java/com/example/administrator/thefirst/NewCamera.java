@@ -35,10 +35,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.AsyncTask;
+
+import com.alibaba.fastjson.JSONObject;
+import com.baidu.translate.demo.TransApi;
 import com.example.administrator.thefirst.helper.MyDatabaseHelper;
+import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.microsoft.projectoxford.vision.VisionServiceClient;
+import com.microsoft.projectoxford.vision.VisionServiceRestClient;
+import com.microsoft.projectoxford.vision.contract.AnalysisResult;
+import com.microsoft.projectoxford.vision.rest.VisionServiceException;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -48,6 +57,7 @@ import cn.qqtheme.framework.picker.DateTimePicker;
 import java.io.File;
 import java.io.IOException;
 
+import static android.provider.UserDictionary.Words.APP_ID;
 import static android.widget.Toast.makeText;
 
 
@@ -60,6 +70,11 @@ public class NewCamera extends AppCompatActivity {
     private Bitmap mBitmap;
     private Uri mImageUri;
     private View inflate;
+    private EditText mEditText;
+
+    private VisionServiceClient client;
+    private static final String APP_ID = "20180106000112508";
+    private static final String SECURITY_KEY = "dkGciCsc_Xo8kXjUDpdz";
 
     private Dialog dialog;
     private MyDatabaseHelper dbHelper;
@@ -74,6 +89,11 @@ public class NewCamera extends AppCompatActivity {
         //创建数据库
         dbHelper = new MyDatabaseHelper(this,"Storage.db",null,1);
         dbHelper.getReadableDatabase();
+
+        if (client==null){
+            client = new VisionServiceRestClient("204abc13061449da9613f09c37750006","https://westcentralus.api.cognitive.microsoft.com/vision/v1.0");
+        }
+        mEditText = (EditText)findViewById(R.id.camera_edittext);
 
         Toolbar cameraToolbar = (Toolbar) findViewById(R.id.camera_toolbar);
         setSupportActionBar(cameraToolbar);
@@ -211,6 +231,7 @@ public class NewCamera extends AppCompatActivity {
                     if (mBitmap != null) {
                         imageView = findViewById(R.id.camera_photograph);
                         imageView.setImageBitmap(mBitmap);
+                        doDescribe();
                     }
                     //finish();
                     //}
@@ -229,6 +250,7 @@ public class NewCamera extends AppCompatActivity {
                             Toast.makeText(this,"Create succeeded",Toast.LENGTH_SHORT).show();
                             imageView = findViewById(R.id.camera_photograph);
                             imageView.setImageBitmap(mBitmap);
+                            doDescribe();
                         }
                         else {
                             Toast.makeText(this,"Create failed",Toast.LENGTH_SHORT).show();
@@ -441,6 +463,144 @@ public class NewCamera extends AppCompatActivity {
         Button button =  (Button)findViewById(R.id.camera_location);
         button.setText(textView.getText().toString());
         dialog.dismiss();
+    }
+
+
+
+
+
+
+
+    public void doDescribe() {
+        //mButtonSelectImage.setEnabled(false);
+        mEditText.setText("描述中……");
+
+        try {
+            new doRequest().execute();
+        } catch (Exception e)
+        {
+            mEditText.setText("Error encountered. Exception is: " + e.toString());
+        }
+    }
+
+    private String process() throws VisionServiceException, IOException {
+        Gson gson = new Gson();
+        //String[] features = {"ImageType", "Color", "Faces", "Adult", "Categories"};
+        String[] features = {"Color","Description"};
+        String[] details = {};
+
+        // Put the image into an input stream for detection.
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(output.toByteArray());
+
+        AnalysisResult v = this.client.analyzeImage(inputStream, features, details);
+        //AnalysisResult h = this.client.describe(inputStream, 1);
+
+//        String result = gson.toJson(v);
+//        Log.d("result", result);
+//        Gson gson = new Gson();
+        AnalysisResult result = gson.fromJson(gson.toJson(v), AnalysisResult.class);
+
+
+        try{
+            TransApi api = new TransApi(APP_ID, SECURITY_KEY);
+            String caption = result.description.captions.get(0).text;
+            String jsonString = api.getTransResult(caption, "auto", "zh");
+            JSONObject obj = JSONObject.parseObject(jsonString);
+            String Caption = obj.getJSONArray("trans_result").getJSONObject(0).getString("dst");
+
+            String tag = result.description.tags.get(0);
+            String jsonString1 = api.getTransResult(tag, "auto", "zh");
+            JSONObject obj1 = JSONObject.parseObject(jsonString1);
+            String Tag = obj1.getJSONArray("trans_result").getJSONObject(0).getString("dst");
+
+            String color = result.color.dominantColorForeground;
+            String jsonString2 = api.getTransResult(color, "auto", "zh");
+            JSONObject obj2 = JSONObject.parseObject(jsonString2);
+            String Color = obj2.getJSONArray("trans_result").getJSONObject(0).getString("dst");
+            JSONObject object = new JSONObject();
+            object.put("caption",Caption);
+            object.put("tag",Tag);
+            object.put("color",Color);
+            return object.toString();
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
+
+    private class doRequest extends AsyncTask<String, String, String> {
+        // Store error message
+        private Exception e = null;
+
+        public doRequest() {
+        }
+
+        @Override
+        protected String doInBackground(String... args) {
+            try {
+                return process();
+            } catch (Exception e) {
+                this.e = e;    // Store error
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String data) {
+            super.onPostExecute(data);
+            // Display based on error existence
+
+            mEditText.setText("");
+            if (e != null) {
+                mEditText.setText("Error: " + e.getMessage());
+                this.e = null;
+            } else {
+                JSONObject obj = JSONObject.parseObject(data);
+                mEditText.append("标题:"+obj.getString("caption"));
+                mEditText.append("\n");
+                mEditText.append("标签:"+obj.getString("tag")+"\n");
+                mEditText.append("\n");
+                mEditText.append("颜色："+obj.getString("color"));
+//                ContentValues values = new ContentValues();
+//                ByteArrayOutputStream output = new ByteArrayOutputStream();
+//                mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
+//                values.put("color",obj.getString("color"));
+//                values.put("caption",obj.getString("caption"));
+//                values.put("tag",obj.getString("tag"));
+//                values.put("cabinet",1);
+//                values.put("image",output.toByteArray());
+//                SQLiteDatabase db = dbHelper.getWritableDatabase();
+//                db.insert("storage",null,values);
+
+                //mEditText.append("Image format: " + result.metadata.format + "\n");
+                //mEditText.append("Image width: " + result.metadata.width + ", height:" + result.metadata.height + "\n");
+                //mEditText.append("\n");
+
+//                for (Caption caption: result.description.captions) {
+//                    mEditText.append("Caption: " + caption.text + ", confidence: " + caption.confidence + "\n");
+//                }
+
+
+
+//                for (String tag: result.description.tags) {
+//                    mEditText.append("Tag: " + tag + "\n");
+//                }
+
+
+//                mEditText.append("\n--- Raw Data ---\n\n");
+                //mEditText.append(data);
+//                mEditText.setSelection(0);
+            }
+            //mButtonSelectImage.setEnabled(true);
+        }
     }
 
 }
