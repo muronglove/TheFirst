@@ -68,19 +68,20 @@ public class NewCamera extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_new_camera);
-            //创建数据库
-            dbHelper = new MyDatabaseHelper(this, "Storage.db", null, 1);
-            dbHelper.getReadableDatabase();
 
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_new_camera);
+        //创建数据库
+        dbHelper = new MyDatabaseHelper(this,"Storage.db",null,1);
+        dbHelper.getReadableDatabase();
 
-            Toolbar cameraToolbar = (Toolbar) findViewById(R.id.camera_toolbar);
-            setSupportActionBar(cameraToolbar);
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(false);
-            }
+        Toolbar cameraToolbar = (Toolbar) findViewById(R.id.camera_toolbar);
+        setSupportActionBar(cameraToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(false);
+        }
+
 
             //扫码部分
             Button btnScan = (Button) findViewById(R.id.camera_scan);
@@ -189,51 +190,63 @@ public class NewCamera extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     protected void onActivityResult(int requestCode, int resultCode,Intent data){
-        try{switch(requestCode){
-            case REQUEST_TAKE_PHOTO:
-                //if(resultCode == RESULT_OK){
-                Intent intent = new Intent();
-                intent.setData(Uri.fromFile(mFilePhotoTaken));
-                mImageUri = intent.getData();
-                mBitmap =ImagineHelper.loadSizeLimitedBitmapFromUri(
-                        mImageUri, getContentResolver());
-                if (mBitmap != null) {
-                    imageView = findViewById(R.id.camera_photograph);
-                    imageView.setImageBitmap(mBitmap);
-                }
-                //finish();
-                //}
-                break;
-            case REQUEST_SELECT_IMAGE_IN_ALBUM:{
-                //if(REQUEST_SELECT_IMAGE_IN_ALBUM ==RESULT_OK ){
-                try{
-                    Uri selectedImage = data.getData();
-                    String []filePathColumn = {MediaStore.Images.Media.DATA};
-                    Cursor cursor = getContentResolver().query(selectedImage,filePathColumn,null,null,null);
-                    cursor.moveToFirst();
-                    int columnIndex  =cursor.getColumnIndex(filePathColumn[0]);
-                    String path = cursor.getString(columnIndex);
-                    mBitmap = BitmapFactory.decodeFile(path);
+        //扫码部分
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                new GetBookTask().execute(result.getContents());
+            }
+        } else{
+            try{switch(requestCode){
+                case REQUEST_TAKE_PHOTO:
+                    //if(resultCode == RESULT_OK){
+                    Intent intent = new Intent();
+                    intent.setData(Uri.fromFile(mFilePhotoTaken));
+                    mImageUri = intent.getData();
+                    mBitmap =ImagineHelper.loadSizeLimitedBitmapFromUri(
+                            mImageUri, getContentResolver());
                     if (mBitmap != null) {
-                        Toast.makeText(this,"Create succeeded",Toast.LENGTH_SHORT).show();
                         imageView = findViewById(R.id.camera_photograph);
                         imageView.setImageBitmap(mBitmap);
                     }
-                    else {
-                        Toast.makeText(this,"Create failed",Toast.LENGTH_SHORT).show();
+                    //finish();
+                    //}
+                    break;
+                case REQUEST_SELECT_IMAGE_IN_ALBUM:{
+                    //if(REQUEST_SELECT_IMAGE_IN_ALBUM ==RESULT_OK ){
+                    try{
+                        Uri selectedImage = data.getData();
+                        String []filePathColumn = {MediaStore.Images.Media.DATA};
+                        Cursor cursor = getContentResolver().query(selectedImage,filePathColumn,null,null,null);
+                        cursor.moveToFirst();
+                        int columnIndex  =cursor.getColumnIndex(filePathColumn[0]);
+                        String path = cursor.getString(columnIndex);
+                        mBitmap = BitmapFactory.decodeFile(path);
+                        if (mBitmap != null) {
+                            Toast.makeText(this,"Create succeeded",Toast.LENGTH_SHORT).show();
+                            imageView = findViewById(R.id.camera_photograph);
+                            imageView.setImageBitmap(mBitmap);
+                        }
+                        else {
+                            Toast.makeText(this,"Create failed",Toast.LENGTH_SHORT).show();
+                        }
+                        cursor.close();
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
-                    cursor.close();
-                }catch (Exception e){
-                    e.printStackTrace();
                 }
-            }
-            //}
-            break;
-            default:
+                //}
                 break;
-        }}catch (Exception e){
-            e.printStackTrace();
+                default:
+                    break;
+            }}catch (Exception e){
+                e.printStackTrace();
+            }
         }
+
     }
     public void takePhoto(View view){
         dialog.dismiss();

@@ -54,7 +54,6 @@
             android:exported="true" />
 
         <activity android:name=".NotificationActivity"></activity>
-        <activity android:name=".PictureActivity"/>
     </application>
 
 </manifest>
