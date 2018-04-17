@@ -2,14 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#fff">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <Button
-            android:layout_marginLeft="10dp"
-            android:id="@+id/num_dialog_btn_cancle"
+        <TextView
+            android:layout_marginLeft="46dp"
+            android:id="@+id/num_dialog_btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="取消"
@@ -22,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:gravity="center"
-            android:text="价格："/>
+            android:text="价格"/>
 
     </RelativeLayout>
     <LinearLayout

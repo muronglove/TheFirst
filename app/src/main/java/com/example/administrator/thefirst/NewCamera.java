@@ -32,6 +32,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.AsyncTask;
@@ -39,6 +41,7 @@ import android.os.AsyncTask;
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.translate.demo.TransApi;
 import com.example.administrator.thefirst.helper.MyDatabaseHelper;
+
 import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -78,6 +81,7 @@ public class NewCamera extends AppCompatActivity {
 
     private Dialog dialog;
     private MyDatabaseHelper dbHelper;
+    private MyDateTimePicker picker2;
 
     Menu menu;
     @Override
@@ -104,7 +108,7 @@ public class NewCamera extends AppCompatActivity {
 
 
             //扫码部分
-            Button btnScan = (Button) findViewById(R.id.camera_scan);
+            RelativeLayout btnScan = (RelativeLayout) findViewById(R.id.camera_scan);
             btnScan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -127,42 +131,56 @@ public class NewCamera extends AppCompatActivity {
             int date = t.monthDay;
             int hour = t.hour;
             int minute = t.minute;
-            final DateTimePicker picker = new DateTimePicker(this, DateTimePicker.HOUR_24);    //24小时制
-            picker.setDateRangeStart(year, month, date);//日期起点
-            picker.setDateRangeEnd(2020, 1, 1);//日期终点
-            picker.setTimeRangeStart(hour, minute);//时间范围起点
-            picker.setTimeRangeEnd(23, 59);//时间范围终点
-            picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
+            TextView btn_date = (TextView) findViewById(R.id.text_date);
+            btn_date.setText(year + "-" + month + "-" + date + " "
+                    + hour + ":" + minute);
+            final MyDateTimePicker picker1 = new MyDateTimePicker(this,DateTimePicker.HOUR_24) {
                 @Override
-                public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
-                    makeText(getApplicationContext(), year + "-" + month + "-" + day + " "
-                            + hour + ":" + minute, Toast.LENGTH_LONG).show();
-                    java.text.DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    Button btn_date = (Button) findViewById(R.id.camera_date);
-                    btn_date.setText("日期:" + year + "-" + month + "-" + day + " "
-                            + hour + ":" + minute);
+                public void doSomething() {
+                    this.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
+                        @Override
+                        public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
+                            TextView btn_date = (TextView) findViewById(R.id.text_date);
+                            btn_date.setText(year + "-" + month + "-" + day + " "
+                                    + hour + ":" + minute);
 
-                    try {
-                        Date d1 = df.parse(year + "-" + month + "-" + day + " " + hour + ":" + minute + ":00");
-                        Date d2 = new Date(System.currentTimeMillis());
-                        long diff = d1.getTime() - d2.getTime();
-                        Intent intent = new Intent(NewCamera.this, AlarmReceiver.class);
-                        intent.setAction("VIDEO_TIMER");
-                        PendingIntent pendingIntent = PendingIntent.getBroadcast(NewCamera.this, 0, intent, 0);
-                        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-                        am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + diff, pendingIntent);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                        }
+                    });
                 }
-            });
+            };
+            new DateTimePickerHelper(picker1).helper();
+            picker2 = new MyDateTimePicker(this,DateTimePicker.HOUR_24) {
+                @Override
+                public void doSomething() {
+                    this.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
+                        @Override
+                        public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
+                            try {
 
+                                java.text.DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                Date d1 = df.parse(year + "-" + month + "-" + day + " " + hour + ":" + minute + ":00");
+                                Date d2 = new Date(System.currentTimeMillis());
+                                long diff = d1.getTime() - d2.getTime();
+                                Intent intent = new Intent(NewCamera.this, AlarmReceiver.class);
+                                intent.setAction("VIDEO_TIMER");
+                                PendingIntent pendingIntent = PendingIntent.getBroadcast(NewCamera.this, 0, intent, 0);
+                                AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+                                am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + diff, pendingIntent);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
 
-            Button btn_datereminder = findViewById(R.id.camera_date);
+                        }
+                    });
+                }
+            };
+            new DateTimePickerHelper(picker2).helper();
+
+            RelativeLayout btn_datereminder = (RelativeLayout) findViewById(R.id.camera_date);
             btn_datereminder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    picker.show();
+                    picker1.show();
                 }
             });
         }catch (Exception e){
@@ -199,8 +217,8 @@ public class NewCamera extends AppCompatActivity {
                 mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
                 values.put("color", ((EditText) findViewById(R.id.camera_edittext)).getText().toString());
                 values.put("caption", ((EditText) findViewById(R.id.camera_edittext)).getText().toString());
-                values.put("tag", ((Button) findViewById(R.id.camera_label)).getText().toString());
-                values.put("cabinet", ((Button) findViewById(R.id.camera_select_number)).getText().toString());
+                values.put("tag", ((TextView) findViewById(R.id.camera_label)).getText().toString());
+                values.put("cabinet", ((TextView) findViewById(R.id.camera_select_number)).getText().toString());
                 values.put("image", output.toByteArray());
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
                 db.insert("storage", null, values);
@@ -335,8 +353,8 @@ public class NewCamera extends AppCompatActivity {
         inflate = LayoutInflater.from(this).inflate(R.layout.camera_out, null);
         //将布局设置给Dialog
         dialog.setContentView(inflate);
-        Button cancle = inflate.findViewById(R.id.cancel_photo);
-        cancle.setOnClickListener(new View.OnClickListener() {
+        Button cancel = inflate.findViewById(R.id.cancel_photo);
+        cancel.setOnClickListener(new View.OnClickListener() {
                                       @Override
                                       public void onClick(View view) {
                                           dialog.dismiss();
@@ -371,8 +389,8 @@ public class NewCamera extends AppCompatActivity {
         inflate = LayoutInflater.from(this).inflate(R.layout.location_dialog, null);
         //将布局设置给Dialog
         dialog.setContentView(inflate);
-        Button cancle = inflate.findViewById(R.id.location_dialog_btn_cancle);
-        cancle.setOnClickListener(new View.OnClickListener() {
+        TextView cancel = inflate.findViewById(R.id.location_dialog_btn_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
                                       @Override
                                       public void onClick(View view) {
                                           dialog.dismiss();
@@ -398,8 +416,8 @@ public class NewCamera extends AppCompatActivity {
         inflate = LayoutInflater.from(this).inflate(R.layout.num_dialog, null);
         //将布局设置给Dialog
         dialog.setContentView(inflate);
-        Button cancle = inflate.findViewById(R.id.num_dialog_btn_cancle);
-        cancle.setOnClickListener(new View.OnClickListener() {
+        TextView cancel = inflate.findViewById(R.id.num_dialog_btn_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
                                       @Override
                                       public void onClick(View view) {
                                           dialog.dismiss();
@@ -425,8 +443,8 @@ public class NewCamera extends AppCompatActivity {
         inflate = LayoutInflater.from(this).inflate(R.layout.label_dialog, null);
         //将布局设置给Dialog
         dialog.setContentView(inflate);
-        Button cancle = inflate.findViewById(R.id.label_dialog_btn_cancle);
-        cancle.setOnClickListener(new View.OnClickListener() {
+        TextView cancel = inflate.findViewById(R.id.label_dialog_btn_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
                                       @Override
                                       public void onClick(View view) {
                                           dialog.dismiss();
@@ -448,19 +466,19 @@ public class NewCamera extends AppCompatActivity {
     }
     public void labelDaialogOnclick(View view){
         TextView  textView= (TextView)view;
-        Button button =  (Button)findViewById(R.id.camera_label);
+        TextView button =  findViewById(R.id.camera_label);
         button.setText(textView.getText().toString());
         dialog.dismiss();
     }
     public void numDaialogOnclick(View view){
         TextView  textView= (TextView)view;
-        Button button =  (Button)findViewById(R.id.camera_select_number);
+        TextView button =  findViewById(R.id.camera_select_number);
         button.setText(textView.getText().toString());
         dialog.dismiss();
     }
     public void locationDaialogOnclick(View view){
         TextView  textView= (TextView)view;
-        Button button =  (Button)findViewById(R.id.camera_location);
+        TextView button =  findViewById(R.id.camera_location);
         button.setText(textView.getText().toString());
         dialog.dismiss();
     }
@@ -603,4 +621,15 @@ public class NewCamera extends AppCompatActivity {
         }
     }
 
+
+    public void swtich1Click(View view){
+        Switch sw = (Switch)view;
+        boolean isChecked = sw.isChecked();
+        if(isChecked){
+            //Toast.makeText(NewCamera.this, "开启", Toast.LENGTH_SHORT).show();
+            picker2.show();
+        }else {
+            //Toast.makeText(NewCamera.this, "关闭", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

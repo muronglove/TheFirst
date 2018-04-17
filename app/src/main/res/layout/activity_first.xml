@@ -19,11 +19,6 @@
                 android:layout_height="wrap_content"
                 android:iconifiedByDefault="false"
                 android:queryHint="关键词之间用逗号隔开" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="展示"
-            android:id="@+id/display"/>
 
 
 

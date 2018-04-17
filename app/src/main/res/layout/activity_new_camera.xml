@@ -12,165 +12,306 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/camera_scan"
-            android:layout_width="wrap_content"
+        android:layout_height="30sp"
+        android:layout_marginBottom="10sp"
+        android:id="@+id/camera_scan">
+        <ImageView
+            android:layout_width="30sp"
             android:layout_height="wrap_content"
-            android:text="Scan:"
-            android:gravity="left" />
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/scan"
+            android:id="@+id/icon_scan"
+            android:layout_marginLeft="10dp"/>
         <TextView
-            android:id="@+id/txt_new_scan"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:layout_toRightOf="@id/icon_scan"
+            android:gravity="center"
+            android:textColor="#000"
+            android:layout_marginLeft="5sp"
+            android:text="扫码:"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:layout_toLeftOf="@id/icon_rightarrow1"
+            android:gravity="center"
+            android:textColor="#000"
+            android:text="扫一扫获取书籍信息"
+            />
+        <ImageView
+            android:layout_width="30sp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="24sp"
-            android:lines="1" />
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:src="@drawable/rightarrow"
+            android:layout_marginRight="10dp"
+            android:id="@+id/icon_rightarrow1" />
+    </RelativeLayout>
 
 
     <EditText
         android:id="@+id/camera_edittext"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="10dp"
         android:hint="填写描述..."
         android:gravity="left|top"
-        android:background="@null"/>
+        android:background="@null"
+        android:textSize="15sp"/>
 
     <ImageView
         android:id="@+id/camera_photograph"
+        android:layout_marginLeft="10dp"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:src="@drawable/addpicture"
+        android:layout_marginBottom="20dp"
         android:onClick="show"
         android:text="拍照"
         android:layout_marginTop="0dp" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="-12dp">
-
-        <Button
+        android:layout_height="30sp"
+        android:layout_marginBottom="10sp"
+        android:onClick="labelDialog">
+        <ImageView
+            android:layout_width="30sp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/label"
+            android:id="@+id/icon_label"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:layout_toRightOf="@id/icon_label"
+            android:gravity="center"
+            android:textColor="#000"
+            android:layout_marginLeft="5sp"
+            android:text="标签:"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:layout_toLeftOf="@id/icon_rightarrow2"
+            android:gravity="center"
+            android:textColor="#000"
+            android:text="选择标签"
             android:id="@+id/camera_label"
-            android:layout_width="wrap_content"
+            />
+        <ImageView
+            android:layout_width="30sp"
             android:layout_height="wrap_content"
-            android:text="标签："
-            android:onClick="labelDialog"
-            android:gravity="left" />
-        <TextView
-            android:id="@+id/txt_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="24sp"
-            android:lines="1"/>
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:src="@drawable/rightarrow"
+            android:layout_marginRight="10dp"
+            android:id="@+id/icon_rightarrow2"/>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:onClick="numDialog"
+        android:layout_height="30sp"
+        android:layout_marginBottom="10sp"
+        android:onClick="numDialog">
+        <ImageView
+            android:layout_width="30sp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/number"
+            android:id="@+id/icon_number"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:layout_toRightOf="@id/icon_number"
+            android:gravity="center"
+            android:textColor="#000"
+            android:layout_marginLeft="5sp"
+            android:text="数量:"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:layout_toLeftOf="@id/icon_rightarrow3"
+            android:gravity="center"
+            android:textColor="#000"
+            android:text="1"
             android:id="@+id/camera_select_number"
-            android:layout_width="wrap_content"
+            />
+        <ImageView
+            android:layout_width="30sp"
             android:layout_height="wrap_content"
-            android:text="数量："
-            android:gravity="left"/>
-        <TextView
-            android:id="@+id/txt_select_number"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="24sp"
-            android:lines="1"/>
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:src="@drawable/rightarrow"
+            android:layout_marginRight="10dp"
+            android:id="@+id/icon_rightarrow3"/>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="-12dp">
-        <Button
-            android:id="@+id/camera_value"
-            android:layout_width="wrap_content"
+        android:layout_height="30sp"
+        android:layout_marginBottom="10sp">
+        <ImageView
+            android:layout_width="30sp"
             android:layout_height="wrap_content"
-            android:text="价格："
-            android:gravity="left"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/price"
+            android:id="@+id/icon_price1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:layout_toRightOf="@id/icon_price1"
+            android:gravity="center"
+            android:textColor="#000"
+            android:layout_marginLeft="5sp"
+            android:text="价格:"
             />
         <TextView
-            android:id="@+id/txt_value"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:layout_toLeftOf="@id/icon_rightarrow5"
+            android:gravity="center"
+            android:textColor="#000"
+            android:text="1"
+            />
+        <ImageView
+            android:layout_width="30sp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="24sp"
-            android:lines="1"/>
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:src="@drawable/rightarrow"
+            android:layout_marginRight="10dp"
+            android:id="@+id/icon_rightarrow5"/>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="-12dp">
-        <Button
-            android:onClick="locationDialog"
+        android:layout_height="30sp"
+        android:layout_marginBottom="10sp"
+        android:onClick="locationDialog">
+        <ImageView
+            android:layout_width="30sp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/location"
+            android:id="@+id/icon_location"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:layout_toRightOf="@id/icon_location"
+            android:gravity="center"
+            android:textColor="#000"
+            android:layout_marginLeft="5sp"
+            android:text="位置:"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:layout_toLeftOf="@id/icon_rightarrow6"
+            android:gravity="center"
+            android:textColor="#000"
+            android:text="卧室"
             android:id="@+id/camera_location"
-            android:layout_width="wrap_content"
+            />
+        <ImageView
+            android:layout_width="30sp"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:text="位置：" />
-        <TextView
-            android:id="@+id/txt_location"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="24sp"
-            android:lines="1"/>
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:src="@drawable/rightarrow"
+            android:layout_marginRight="10dp"
+            android:id="@+id/icon_rightarrow6"/>
+    </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/camera_warn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="提醒（过期、借还、通知等）："
-            android:gravity="left"/>
-        <TextView
-            android:id="@+id/txt_warn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="24sp"
-            android:lines="1"/>
-    </LinearLayout>
 
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="-12dp">
-        <Button
-            android:id="@+id/camera_date"
+        android:layout_height="30sp"
+        android:layout_marginBottom="10sp">
+        <ImageView
+            android:layout_width="30sp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/reminder"
+            android:id="@+id/icon_reminder"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:layout_toRightOf="@id/icon_reminder"
+            android:gravity="center"
+            android:textColor="#000"
+            android:layout_marginLeft="5sp"
+            android:text="提醒(过期、借还、通知等):"
+            />
+        <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="日期："
-            android:gravity="left"
+            android:id="@+id/switch1"
+            android:onClick="swtich1Click"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:checked="false" />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="30sp"-->
+            <!--android:layout_toLeftOf="@id/icon_rightarrow7"-->
+            <!--android:gravity="center"-->
+            <!--android:textColor="#000"-->
+            <!--android:text="设置"-->
+            <!--/>-->
+        <!--<ImageView-->
+            <!--android:layout_width="30sp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:src="@drawable/rightarrow"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:id="@+id/icon_rightarrow7"/>-->
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30sp"
+        android:layout_marginBottom="10sp"
+        android:id="@+id/camera_date">
+        <ImageView
+            android:layout_width="30sp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/date"
+            android:id="@+id/icon_date"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:layout_toRightOf="@id/icon_date"
+            android:gravity="center"
+            android:textColor="#000"
+            android:layout_marginLeft="5sp"
+            android:text="日期:"
             />
         <TextView
-            android:id="@+id/txt_date"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:layout_toLeftOf="@id/icon_rightarrow8"
+            android:gravity="center"
+            android:textColor="#000"
+            android:text="2018-04-16 00:00"
+            android:id="@+id/text_date"
+            />
+        <ImageView
+            android:layout_width="30sp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="24sp"
-            android:lines="1"/>
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:src="@drawable/rightarrow"
+            android:layout_marginRight="10dp"
+            android:id="@+id/icon_rightarrow8"/>
+    </RelativeLayout>
 
 
 </LinearLayout>

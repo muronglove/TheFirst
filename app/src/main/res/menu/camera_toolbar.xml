@@ -3,15 +3,15 @@
 
         <item
             android:id="@+id/camera_cancel_action"
-            android:title="Cancel"
+            android:title="取消"
             app:showAsAction="always" />
-        <item
-            android:id="@+id/camera_add_action"
-            android:title="Add"
-            app:showAsAction="always"/>
+        <!--<item-->
+            <!--android:id="@+id/camera_add_action"-->
+            <!--android:title="Add"-->
+            <!--app:showAsAction="always"/>-->
         <item
             android:id="@+id/camera_save_action"
-            android:title="Save"
+            android:title="保存"
             app:showAsAction="always"/>
 
 </menu>

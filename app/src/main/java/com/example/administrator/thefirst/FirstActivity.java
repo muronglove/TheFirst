@@ -50,9 +50,14 @@ public class FirstActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Intent intent = new Intent(FirstActivity.this,SearchResultActivity.class);
-                intent.putExtra("str",searchView.getQuery().toString());
-                startActivity(intent);
+                if(searchView.getQuery().toString().equals("all")){
+                    Intent intent = new Intent(FirstActivity.this,DisplayActivity.class);
+                    startActivity(intent);
+                } else{
+                    Intent intent = new Intent(FirstActivity.this,SearchResultActivity.class);
+                    intent.putExtra("str",searchView.getQuery().toString());
+                    startActivity(intent);
+                }
                 return false;
             }
 
@@ -63,16 +68,7 @@ public class FirstActivity extends AppCompatActivity {
             }
         });
 
-        //展示所有物品
-        Button display = (Button)findViewById(R.id.display);
-        display.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(FirstActivity.this,DisplayActivity.class);
-                startActivity(intent);
-
-            }
-        });}catch (Exception e){
+        }catch (Exception e){
             e.printStackTrace();
         }
 

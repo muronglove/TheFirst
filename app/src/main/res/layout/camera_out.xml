@@ -1,7 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#fff">
     <Button
         android:id="@+id/takePhoto"
         android:layout_width="match_parent"
@@ -9,18 +10,16 @@
         android:gravity="center"
         android:text="拍照"
         android:onClick="takePhoto"
-        android:textColor="#0000ff"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_gravity="center"/>
     <Button
         android:id="@+id/choosePhoto"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:gravity="center"
         android:text="从相册选择"
-        android:textColor="#0000ff"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_gravity="center"/>
 
     <Button
         android:id="@+id/cancel_photo"
@@ -29,8 +28,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="取消"
-        android:textColor="#0000ff"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_gravity="center"/>
 
 </LinearLayout>
