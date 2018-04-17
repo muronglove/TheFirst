@@ -57,8 +57,10 @@ public class  ClassificationActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new ClassAdapter.OnItemClickListener() {
             @Override
             public void clicked(int position) {
-                Classification classification=list.get(position);
-                Toast.makeText(ClassificationActivity.this,classification.getName(),Toast.LENGTH_LONG).show();
+//                Classification classification=list.get(position);
+//                Toast.makeText(ClassificationActivity.this,classification.getName(),Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(ClassificationActivity.this,PictureActivity.class);
+                startActivity(intent);
             }
         });
         recyclerView.setAdapter(adapter);
@@ -86,68 +88,25 @@ public class  ClassificationActivity extends AppCompatActivity {
         Classification classification1=new Classification();
         classification1.setName("上衣");
         list.add(classification1);
-        classification1.setOnItemClickListener(new ClassAdapter.OnItemClickListener(){
-            @Override
-            public void clicked(int position) {
-                Intent intent1=new Intent(ClassificationActivity.this,PictureActivity.class);
-                startActivity(intent1);
-            }
-        });
 
         Classification classification2=new Classification();
         classification2.setName("裤子");
         list.add(classification2);
-        classification2.setOnItemClickListener(new ClassAdapter.OnItemClickListener(){
-            @Override
-            public void clicked(int position) {
-                Intent intent2=new Intent(ClassificationActivity.this,PictureActivity.class);
-                startActivity(intent2);
-            }
-        });
 
         Classification classification3=new Classification();
         classification3.setName("帽子");
         list.add(classification3);
-        classification3.setOnItemClickListener(new ClassAdapter.OnItemClickListener(){
-            @Override
-            public void clicked(int position) {
-                Intent intent3=new Intent(ClassificationActivity.this,PictureActivity.class);
-                startActivity(intent3);
-            }
-        });
 
         Classification classification4=new Classification();
         classification4.setName("围巾");
         list.add(classification4);
-        classification4.setOnItemClickListener(new ClassAdapter.OnItemClickListener(){
-            @Override
-            public void clicked(int position) {
-                Intent intent4=new Intent(ClassificationActivity.this,PictureActivity.class);
-                startActivity(intent4);
-            }
-        });
 
         Classification classification5=new Classification();
         classification5.setName("口罩");
         list.add(classification5);
-        classification5.setOnItemClickListener(new ClassAdapter.OnItemClickListener(){
-            @Override
-            public void clicked(int position) {
-                Intent intent5=new Intent(ClassificationActivity.this,PictureActivity.class);
-                startActivity(intent5);
-            }
-        });
 
         Classification classification6=new Classification();
         classification6.setName("袜子");
         list.add(classification6);
-        classification6.setOnItemClickListener(new ClassAdapter.OnItemClickListener(){
-            @Override
-            public void clicked(int position) {
-                Intent intent6=new Intent(ClassificationActivity.this,PictureActivity.class);
-                startActivity(intent6);
-            }
-        });
-
     }
 }

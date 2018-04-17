@@ -57,7 +57,8 @@ public class AdviceDetailActivity extends AppCompatActivity {
         protected List<Object> doInBackground(String... params) {
             List<Object> objlist = new ArrayList<>();
             try{
-                Document doc = Jsoup.connect(params[0]).get();
+                Document doc = Jsoup.connect("http:"+params[0]).get();
+                //Log.d(TAG, "doInBackground: "+"http:"+params[0]);
                 doc = Jsoup.parse(doc.toString().replace("&nbsp;", ""));
                 objlist.add(doc.select("h1").text());
                 objlist.add(doc.select(".artInfo").text());
@@ -70,7 +71,8 @@ public class AdviceDetailActivity extends AppCompatActivity {
                     if((pItem.childNodeSize()!=0)&&(pItem.hasAttr("style"))&&(pItem.child(0).is("img"))){
                         Bitmap bmp = null;
                         //Log.i("Dress",article.image);
-                        URL url=new URL(pItem.child(0).attr("src"));
+                        //Log.d(TAG, "doInBackground: "+pItem.child(0).attr("src"));
+                        URL url=new URL("http:"+pItem.child(0).attr("src"));
                         HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                         conn.setDoInput(true);
                         conn.connect();
@@ -85,6 +87,7 @@ public class AdviceDetailActivity extends AppCompatActivity {
                 }
 
             }catch (Exception e){
+                Log.d(TAG, "doInBackground: exception");
                 e.printStackTrace();
             }
             return objlist;
@@ -125,7 +128,7 @@ public class AdviceDetailActivity extends AppCompatActivity {
                         textView.setTextSize(20);
                         linearLayout.addView(textView);
                     }
-                    Log.d(TAG, "onPostExecute: "+i);
+                    //Log.d(TAG, "onPostExecute: "+i);
                 }
 
 //                Log.d(TAG, "onPostExecute: start");
