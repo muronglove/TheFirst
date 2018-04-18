@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fff">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginLeft="46dp"
+            android:id="@+id/color_dialog_btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="取消"
+            android:gravity="center"
+            android:layout_alignParentLeft="true"
+            />
+        <TextView
+            android:id="@+id/color_dialog_tex_color"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="颜色"/>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/color_dialog_tex_red"
+            android:layout_weight="1"
+            android:layout_width="78dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:onClick="clolorDaialogOnclick"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="红色" />
+        <TextView
+            android:id="@+id/color_dialog_tex_blue"
+            android:layout_weight="1"
+            android:layout_width="78dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:onClick="clolorDaialogOnclick"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="蓝色"
+            />
+        <TextView
+            android:id="@+id/color_dialog_tex_black"
+            android:layout_weight="1"
+            android:layout_width="78dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:onClick="clolorDaialogOnclick"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="黑色"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/color_dialog_tex_gray"
+            android:layout_width="78dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:onClick="clolorDaialogOnclick"
+            android:gravity="center"
+            android:text="灰色" />
+
+        <TextView
+            android:id="@+id/color_dialog_tex_yellow"
+            android:layout_width="78dp"
+            android:layout_height="39dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:onClick="clolorDaialogOnclick"
+            android:gravity="center"
+            android:text="黄色" />
+
+        <TextView
+            android:id="@+id/color_dialog_edi_brown"
+            android:layout_width="78dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:onClick="clolorDaialogOnclick"
+            android:gravity="center"
+            android:text="棕色" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/color_dialog_tex_green"
+            android:layout_width="78dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:onClick="clolorDaialogOnclick"
+            android:gravity="center"
+            android:text="绿色" />
+
+        <TextView
+            android:id="@+id/color_dialog_tex_white"
+            android:layout_width="78dp"
+            android:layout_height="39dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:onClick="clolorDaialogOnclick"
+            android:gravity="center"
+            android:text="白色" />
+
+        <TextView
+            android:id="@+id/color_dialog_edi_pink"
+            android:layout_width="78dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:onClick="clolorDaialogOnclick"
+            android:gravity="center"
+            android:text="粉红色" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/color_dialog_tex_purple"
+            android:layout_width="78dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:onClick="clolorDaialogOnclick"
+            android:gravity="center"
+            android:text="紫色" />
+
+        <TextView
+            android:id="@+id/color_dialog_tex_orange"
+            android:layout_width="78dp"
+            android:layout_height="39dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:onClick="clolorDaialogOnclick"
+            android:gravity="center"
+            android:text="橙色" />
+
+        <TextView
+            android:id="@+id/color_dialog_edi_else"
+            android:layout_width="78dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="其他" />
+    </LinearLayout>
+</LinearLayout>
