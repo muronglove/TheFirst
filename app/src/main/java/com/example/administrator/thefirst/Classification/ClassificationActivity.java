@@ -17,6 +17,7 @@ import android.widget.Toolbar;
 import com.example.administrator.thefirst.Collection.CollectionAdviceActivity;
 import com.example.administrator.thefirst.PictureActivity;
 import com.example.administrator.thefirst.R;
+import com.example.administrator.thefirst.SearchResultActivity;
 import com.example.administrator.thefirst.TimeLineActivity;
 
 import java.util.ArrayList;
@@ -57,9 +58,10 @@ public class  ClassificationActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new ClassAdapter.OnItemClickListener() {
             @Override
             public void clicked(int position) {
-//                Classification classification=list.get(position);
+                Classification classification=list.get(position);
 //                Toast.makeText(ClassificationActivity.this,classification.getName(),Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(ClassificationActivity.this,PictureActivity.class);
+                Intent intent=new Intent(ClassificationActivity.this,SearchResultActivity.class);
+                intent.putExtra("str",classification.getName());
                 startActivity(intent);
             }
         });
