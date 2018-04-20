@@ -464,22 +464,55 @@ public class NewCamera extends AppCompatActivity {
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();//显示对话框
     }
+    public void colorDialog(View view){
+        dialog = new Dialog(this,R.style.ActionSheetDialogStyle);
+        //填充对话框的布局
+        inflate = LayoutInflater.from(this).inflate(R.layout.color_dialog, null);
+        //将布局设置给Dialog
+        dialog.setContentView(inflate);
+        TextView cancel = inflate.findViewById(R.id.color_dialog_btn_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+                                      @Override
+                                      public void onClick(View view) {
+                                          dialog.dismiss();
+                                      }
+                                  }
+        );
+        //获取当前Activity所在的窗体
+        Window dialogWindow = dialog.getWindow();
+        //设置Dialog从窗体底部弹出
+        dialogWindow.setGravity( Gravity.BOTTOM);
+        //获得窗体的属性
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.y = 20;//设置Dialog距离底部的距离
+////       将属性设置给窗体
+        dialogWindow.setAttributes(lp);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();//显示对话框
+    }
     public void labelDaialogOnclick(View view){
         TextView  textView= (TextView)view;
-        TextView button =  findViewById(R.id.camera_label);
-        button.setText(textView.getText().toString());
+        TextView textView1 =  findViewById(R.id.camera_label);
+        textView1.setText(textView.getText().toString());
         dialog.dismiss();
     }
     public void numDaialogOnclick(View view){
         TextView  textView= (TextView)view;
-        TextView button =  findViewById(R.id.camera_select_number);
-        button.setText(textView.getText().toString());
+        TextView textView1 =  findViewById(R.id.camera_select_number);
+        textView1.setText(textView.getText().toString());
         dialog.dismiss();
     }
     public void locationDaialogOnclick(View view){
         TextView  textView= (TextView)view;
-        TextView button =  findViewById(R.id.camera_location);
-        button.setText(textView.getText().toString());
+        TextView textView1 =  findViewById(R.id.camera_location);
+        textView1.setText(textView.getText().toString());
+        dialog.dismiss();
+    }
+    public void clolorDaialogOnclick(View view){
+        TextView  textView= (TextView)view;
+        TextView textView1=  findViewById(R.id.txt_color_select);
+        textView1.setText(textView.getText().toString());
         dialog.dismiss();
     }
 
