@@ -6,7 +6,6 @@ package com.example.administrator.thefirst.Classification;
 
 public class Classification {
     private String name;
-    public Object onItemClickListener;
 
     public String getName() {
         return name;
@@ -14,9 +13,5 @@ public class Classification {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setOnItemClickListener(ClassAdapter.OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
     }
 }

@@ -16,6 +16,7 @@ import android.widget.Toolbar;
 
 import com.example.administrator.thefirst.Collection.CollectionAdviceActivity;
 import com.example.administrator.thefirst.PictureActivity;
+import com.example.administrator.thefirst.QueryDb;
 import com.example.administrator.thefirst.R;
 import com.example.administrator.thefirst.SearchResultActivity;
 import com.example.administrator.thefirst.TimeLineActivity;
@@ -87,28 +88,35 @@ public class  ClassificationActivity extends AppCompatActivity {
     }
 
     void init(){
-        Classification classification1=new Classification();
-        classification1.setName("上衣");
-        list.add(classification1);
 
-        Classification classification2=new Classification();
-        classification2.setName("裤子");
-        list.add(classification2);
-
-        Classification classification3=new Classification();
-        classification3.setName("帽子");
-        list.add(classification3);
-
-        Classification classification4=new Classification();
-        classification4.setName("围巾");
-        list.add(classification4);
-
-        Classification classification5=new Classification();
-        classification5.setName("口罩");
-        list.add(classification5);
-
-        Classification classification6=new Classification();
-        classification6.setName("袜子");
-        list.add(classification6);
+        List<String> tags=QueryDb.getTags(ClassificationActivity.this);
+        for(int i=0;i<list.size();i++){
+            Classification classification=new Classification();
+            classification.setName(tags.get(i));
+            list.add(classification);
+        }
+//        Classification classification1=new Classification();
+//        classification1.setName("上衣");
+//        list.add(classification1);
+//
+//        Classification classification2=new Classification();
+//        classification2.setName("裤子");
+//        list.add(classification2);
+//
+//        Classification classification3=new Classification();
+//        classification3.setName("帽子");
+//        list.add(classification3);
+//
+//        Classification classification4=new Classification();
+//        classification4.setName("围巾");
+//        list.add(classification4);
+//
+//        Classification classification5=new Classification();
+//        classification5.setName("口罩");
+//        list.add(classification5);
+//
+//        Classification classification6=new Classification();
+//        classification6.setName("袜子");
+//        list.add(classification6);
     }
 }

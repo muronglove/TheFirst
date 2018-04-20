@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -42,42 +43,16 @@ import java.util.Map;
 import java.util.Objects;
 
 public class DisplayActivity extends Activity {
-
-    private MyDatabaseHelper dbhelper;
+    private static final String TAG = "DisplayActivity";
+    //private MyDatabaseHelper dbhelper;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_display);
-        List<Map<String,Object>> listItems = new ArrayList<Map<String,Object>>();
-        dbhelper = new MyDatabaseHelper(this,"Storage.db",null,1);
-        SQLiteDatabase db = dbhelper.getWritableDatabase();
-        Cursor cursor = db.query("storage", null, null, null, null, null, null, null);
-        LinearLayout ll = (LinearLayout) findViewById(R.id.ll);
-        while(cursor.moveToNext()){
-            Map<String,Object> listItem = new HashMap<String,Object>();
-            String color = "颜色:"+cursor.getString(1);
-            String caption = "标题:"+cursor.getString(2);
-            String tag = "标签:"+cursor.getString(3);
-            String cabinet = "柜子:"+cursor.getInt(4);
-            byte[] imageQuery = cursor.getBlob(5);
-            Bitmap imageBitmap = BitmapFactory.decodeByteArray(imageQuery,0,imageQuery.length);
-            listItem.put("color",color);
-            listItem.put("caption",caption);
-            listItem.put("tag",tag);
-            listItem.put("cabinet",cabinet);
-            listItem.put("imageBitmap",imageBitmap);
-            listItems.add(listItem);
-            //String Temperature = cursor.getString(1);
-            //TextView tv = new TextView(this);
-            //2.把人物的信息设置为文本框的内容
-            //tv.setText(id+": "+Temperature);
-            //tv.setTextSize(18);
-            //设置完上述两条语句并不会把TextView显示在界面上，
-            //所以需要第三步，将其与layout关联起来；
-            //3.把textView设置为线性布局的子节点
-            //ll.addView(tv);
-        }
+
+        List<Map<String,Object>> listItems=QueryDb.showAll(this);
+        Log.d(TAG, "onCreate: "+listItems.size());
         SimpleAdapter simpleAdapter = new SimpleAdapter(this,listItems,R.layout.item,new String[]{"color","caption","tag","cabinet","imageBitmap"},new int[]{R.id.color,R.id.caption,R.id.tag,R.id.cabinet,R.id.image_item});
         simpleAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
             @Override
