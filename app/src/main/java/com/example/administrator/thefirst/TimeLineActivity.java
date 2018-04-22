@@ -23,55 +23,56 @@ public class TimeLineActivity extends AppCompatActivity {
     }
 
     private List<Map<String,Object>> getData(){
-        List<Map<String,Object>> result = new ArrayList<>();
-        Map<String,Object> map = new HashMap<>();
-        map.put("show_time",1);
-        map.put("image",R.drawable.ic_close);
-        map.put("title","第一幅图");
-        result.add(map);
-
-        map = new HashMap<>();
-        map.put("show_time",2);
-        map.put("image",R.drawable.ic_close);
-        map.put("title","第二幅图");
-        result.add(map);
-
-        map = new HashMap<>();
-        map.put("show_time",3);
-        map.put("image",R.drawable.ic_close);
-        map.put("title","第三幅图");
-        result.add(map);
-
-        map = new HashMap<>();
-        map.put("show_time",4);
-        map.put("image",R.drawable.ic_close);
-        map.put("title","第四幅图");
-        result.add(map);
-
-        map = new HashMap<>();
-        map.put("show_time",5);
-        map.put("image",R.drawable.ic_close);
-        map.put("title","第五幅图");
-        result.add(map);
-
-        map = new HashMap<>();
-        map.put("show_time",6);
-        map.put("image",R.drawable.ic_close);
-        map.put("title","第六幅图");
-        result.add(map);
-
-        map = new HashMap<>();
-        map.put("show_time",7);
-        map.put("image",R.drawable.ic_close);
-        map.put("title","第七幅图");
-        result.add(map);
-
-        map = new HashMap<>();
-        map.put("show_time",8);
-        map.put("image",R.drawable.ic_close);
-        map.put("title","第八幅图");
-        result.add(map);
-
-        return result;
+//        List<Map<String,Object>> result = new ArrayList<>();
+//        Map<String,Object> map = new HashMap<>();
+//        map.put("show_time",1);
+//        map.put("image",R.drawable.ic_close);
+//        map.put("title","第一幅图");
+//        result.add(map);
+//
+//        map = new HashMap<>();
+//        map.put("show_time",2);
+//        map.put("image",R.drawable.ic_close);
+//        map.put("title","第二幅图");
+//        result.add(map);
+//
+//        map = new HashMap<>();
+//        map.put("show_time",3);
+//        map.put("image",R.drawable.ic_close);
+//        map.put("title","第三幅图");
+//        result.add(map);
+//
+//        map = new HashMap<>();
+//        map.put("show_time",4);
+//        map.put("image",R.drawable.ic_close);
+//        map.put("title","第四幅图");
+//        result.add(map);
+//
+//        map = new HashMap<>();
+//        map.put("show_time",5);
+//        map.put("image",R.drawable.ic_close);
+//        map.put("title","第五幅图");
+//        result.add(map);
+//
+//        map = new HashMap<>();
+//        map.put("show_time",6);
+//        map.put("image",R.drawable.ic_close);
+//        map.put("title","第六幅图");
+//        result.add(map);
+//
+//        map = new HashMap<>();
+//        map.put("show_time",7);
+//        map.put("image",R.drawable.ic_close);
+//        map.put("title","第七幅图");
+//        result.add(map);
+//
+//        map = new HashMap<>();
+//        map.put("show_time",8);
+//        map.put("image",R.drawable.ic_close);
+//        map.put("title","第八幅图");
+//        result.add(map);
+//
+//        return result;
+    return QueryDb.showAll(TimeLineActivity.this);
     }
 }

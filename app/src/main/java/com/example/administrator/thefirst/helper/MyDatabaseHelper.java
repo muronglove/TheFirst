@@ -16,7 +16,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             +"caption text,"
             +"tag text,"
             +"cabinet integer,"
-            +"image blob)";
+            +"image blob,"
+            +"time text)";
 
     private Context mContext;
     public MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
