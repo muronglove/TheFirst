@@ -20,8 +20,7 @@
         <ImageView
             android:layout_width="30sp"
             android:layout_height="wrap_content"
-            android:layout_alignParentLe
-            ft="true"
+            android:layout_alignParentLeft="true"
             android:src="@drawable/scan"
             android:id="@+id/icon_scan"
             android:layout_marginLeft="10dp"/>
