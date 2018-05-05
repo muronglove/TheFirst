@@ -2,11 +2,9 @@ package com.example.administrator.thefirst;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.example.administrator.thefirst.helper.QueryDb;
+
 import java.util.List;
 import java.util.Map;
 
@@ -17,9 +15,22 @@ public class TimeLineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_line);
 
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this,getData(),R.layout.timeline_item,new String[]{"show_time","image","title"},new int[]{R.id.show_time,R.id.image_1,R.id.title});
-        ListView timelineList = (ListView)findViewById(R.id.timeline_list);
-        timelineList.setAdapter(simpleAdapter);
+//        SimpleAdapter simpleAdapter = new SimpleAdapter(this,getData(),R.layout.timeline_item,new String[]{"color","caption","tag","cabinet","imageBitmap"},new int[]{R.id.show_time,R.id.image_1,R.id.title});
+//        simpleAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+//            @Override
+//            public boolean setViewValue(View view, Object data,
+//                                        String textRepresentation) {
+//                // TODO Auto-generated method stub
+//                if (view instanceof ImageView && data instanceof Bitmap) {
+//                    ImageView i = (ImageView) view;
+//                    i.setImageBitmap((Bitmap) data);
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
+//        ListView timelineList = (ListView)findViewById(R.id.timeline_list);
+//        timelineList.setAdapter(simpleAdapter);
     }
 
     private List<Map<String,Object>> getData(){

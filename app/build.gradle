@@ -61,20 +61,18 @@ dependencies {
     implementation files('libs/jsoup-1.11.2.jar')
     implementation files('libs/httpclient-4.4.jar')
     implementation files('libs/commons-codec-1.9.jar')
-
     implementation files('libs/commons-logging-1.2.jar')
     implementation files('libs/fluent-hc-4.4.jar')
     implementation files('libs/httpclient-cache-4.4.jar')
     implementation files('libs/httpclient-win-4.4.jar')
     implementation files('libs/httpcore-4.4.jar')
     implementation files('libs/httpmime-4.4.jar')
-
     implementation files('libs/jna-4.1.0.jar')
     implementation files('libs/jna-platform-4.1.0.jar')
-
     implementation files('libs/commons-lang3-3.7-javadoc.jar')
     implementation files('libs/commons-lang3-3.7-sources.jar')
     implementation files('libs/commons-lang3-3.7-test-sources.jar')
     implementation files('libs/commons-lang3-3.7-tests.jar')
     implementation files('libs/commons-lang3-3.7.jar')
+    implementation files('libs/sun.misc.base64decoder.jar')
 }

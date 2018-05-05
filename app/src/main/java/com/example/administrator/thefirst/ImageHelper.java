@@ -18,7 +18,7 @@ import java.io.InputStream;
  * Created by Administrator on 2018/3/25.
  */
 
-public class ImagineHelper {
+public class ImageHelper {
 
     // The maximum side length of the image to detect, to keep the size of image less than 4MB.
     // Resize the image if its side length is larger than the maximum.

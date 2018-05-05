@@ -93,15 +93,16 @@
             android:layout_marginLeft="5sp"
             android:text="标签:"
             />
+
         <TextView
+            android:id="@+id/camera_label"
             android:layout_width="wrap_content"
             android:layout_height="30sp"
-            android:layout_toLeftOf="@id/icon_rightarrow2"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/icon_rightarrow2"
             android:gravity="center"
-            android:textColor="#000"
             android:text="选择标签"
-            android:id="@+id/camera_label"
-            />
+            android:textColor="#000" />
         <ImageView
             android:layout_width="30sp"
             android:layout_height="wrap_content"

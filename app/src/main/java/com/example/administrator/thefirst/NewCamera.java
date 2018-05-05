@@ -4,8 +4,11 @@ package com.example.administrator.thefirst;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -25,7 +28,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -40,6 +42,7 @@ import android.os.AsyncTask;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.translate.demo.TransApi;
+import com.example.administrator.thefirst.Service.WebService;
 import com.example.administrator.thefirst.helper.MyDatabaseHelper;
 
 import com.google.gson.Gson;
@@ -53,14 +56,13 @@ import com.microsoft.projectoxford.vision.rest.VisionServiceException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import cn.qqtheme.framework.picker.DateTimePicker;
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
-import static android.provider.UserDictionary.Words.APP_ID;
 import static android.widget.Toast.makeText;
 
 
@@ -82,6 +84,9 @@ public class NewCamera extends AppCompatActivity {
     private Dialog dialog;
     private MyDatabaseHelper dbHelper;
     private MyDateTimePicker picker2;
+    private SharedPreferences sp;
+    private String username;
+    private String password;
 
     Menu menu;
     @Override
@@ -90,8 +95,12 @@ public class NewCamera extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_camera);
+
+            //sp = this.getSharedPreferences("userinfo", Context.MODE_MULTI_PROCESS);
+            username = WebService.username;
+            password = WebService.password;
         //创建数据库
-        dbHelper = new MyDatabaseHelper(this,"Storage.db",null,1);
+        dbHelper = MyDatabaseHelper.getInstance(this);
         dbHelper.getReadableDatabase();
 
         if (client==null){
@@ -215,11 +224,27 @@ public class NewCamera extends AppCompatActivity {
                 ContentValues values = new ContentValues();
                 ByteArrayOutputStream output = new ByteArrayOutputStream();
                 mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
-                values.put("color", ((EditText) findViewById(R.id.camera_edittext)).getText().toString());
-                values.put("caption", ((EditText) findViewById(R.id.camera_edittext)).getText().toString());
-                values.put("tag", ((TextView) findViewById(R.id.camera_label)).getText().toString());
-                values.put("cabinet", ((TextView) findViewById(R.id.camera_select_number)).getText().toString());
+
+                String caption = ((EditText) findViewById(R.id.camera_edittext)).getText().toString();
+                String label = ((TextView) findViewById(R.id.camera_label)).getText().toString();
+                String str_number = ((TextView) findViewById(R.id.camera_select_number)).getText().toString();
+                int number = Integer.parseInt(str_number);
+                String color = ((TextView) findViewById(R.id.txt_color_select)).getText().toString();
+                String position = ((TextView)findViewById(R.id.camera_location)).getText().toString();
+                String date = ((TextView)findViewById(R.id.text_date)).getText().toString();
+                String uuid = getUUID();
+                values.put("uuid",uuid);
+                values.put("username",username);
+                values.put("password",password);
+                values.put("caption", caption);
+                values.put("label", label);
+                values.put("number", number);
+                values.put("color", color);
+                values.put("position",position);
+                values.put("date",date);
+
                 values.put("image", output.toByteArray());
+                values.put("a",2);
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
                 db.insert("storage", null, values);
                 finish();
@@ -244,7 +269,7 @@ public class NewCamera extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.setData(Uri.fromFile(mFilePhotoTaken));
                     mImageUri = intent.getData();
-                    mBitmap =ImagineHelper.loadSizeLimitedBitmapFromUri(
+                    mBitmap = ImageHelper.loadSizeLimitedBitmapFromUri(
                             mImageUri, getContentResolver());
                     if (mBitmap != null) {
                         imageView = findViewById(R.id.camera_photograph);
@@ -615,11 +640,12 @@ public class NewCamera extends AppCompatActivity {
                 this.e = null;
             } else {
                 JSONObject obj = JSONObject.parseObject(data);
-                mEditText.append("标题:"+obj.getString("caption"));
+                mEditText.append(obj.getString("caption"));
                 mEditText.append("\n");
-                mEditText.append("标签:"+obj.getString("tag")+"\n");
-                mEditText.append("\n");
-                mEditText.append("颜色："+obj.getString("color"));
+                TextView camera_label = (TextView)findViewById(R.id.camera_label);
+                camera_label.setText(obj.getString("tag"));
+                TextView txt_color_select = (TextView)findViewById(R.id.txt_color_select);
+                txt_color_select.setText(obj.getString("color"));
 //                ContentValues values = new ContentValues();
 //                ByteArrayOutputStream output = new ByteArrayOutputStream();
 //                mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
@@ -665,4 +691,10 @@ public class NewCamera extends AppCompatActivity {
             //Toast.makeText(NewCamera.this, "关闭", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    public static String getUUID() {
+        return UUID.randomUUID().toString().replace("-", "");
+    }
+
 }

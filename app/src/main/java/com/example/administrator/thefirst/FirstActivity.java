@@ -1,21 +1,52 @@
 package com.example.administrator.thefirst;
 
+import android.animation.ObjectAnimator;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.administrator.thefirst.Classification.ClassificationActivity;
 import com.example.administrator.thefirst.Collection.CollectionAdviceActivity;
+import com.example.administrator.thefirst.Service.WebService;
 
 public class FirstActivity extends AppCompatActivity {
+    private ServiceConnection conn;
+    private WebService webService;
+    private WebServiceReceiver receiver;
+    private String content = "";
+    private boolean flag = false;
+    private ImageView mDynamicCircle;
+    private ObjectAnimator mCircleAnimator;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
+
+        //绑定服务和广播接收器
+        startAndBindService();
+
+
+
         try{
             Button sn = (Button)findViewById(R.id.sn);
             sn.setOnClickListener(new View.OnClickListener(){
@@ -28,7 +59,22 @@ public class FirstActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
-        Button user = (Button)findViewById(R.id.user);
+            mDynamicCircle = (ImageView) findViewById(R.id.image);
+            mCircleAnimator = ObjectAnimator.ofFloat(mDynamicCircle, "rotation", 0.0f, 360.0f);
+            mCircleAnimator.setDuration(1000);
+            mCircleAnimator.setInterpolator(new LinearInterpolator());
+            mCircleAnimator.setRepeatCount(-1);
+            mCircleAnimator.setRepeatMode(ObjectAnimator.RESTART);
+            mDynamicCircle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                        mCircleAnimator.start();
+                        webService.sync(FirstActivity.this);
+                }
+            });
+
+
+            Button user = (Button)findViewById(R.id.user);
         user.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -36,6 +82,7 @@ public class FirstActivity extends AppCompatActivity {
                 startActivity(intent2);
             }
         });
+        //铃铛按钮
         Button tj = (Button)findViewById(R.id.tj);
         tj.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -44,6 +91,8 @@ public class FirstActivity extends AppCompatActivity {
                 startActivity(intent3);
             }
         });
+
+
 
         //搜索
         final SearchView searchView = (SearchView)findViewById(R.id.searchView);
@@ -72,5 +121,69 @@ public class FirstActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+
+
+    //绑定服务和广播接收器
+    public void startAndBindService(){
+        receiver = new WebServiceReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("sendContent");
+        registerReceiver(receiver,intentFilter);
+        conn = new ServiceConnection() {
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                //返回一个MsgService对象
+                webService = ((WebService.WebBinder)service).getService();
+                webService.sync(FirstActivity.this);
+                mCircleAnimator.start();
+            }
+        };
+
+        Intent serviceInent = new Intent(this,WebService.class);
+        startService(serviceInent);
+
+        //绑定Service
+        Intent intent = new Intent(this,WebService.class);
+        bindService(intent, conn, Context.BIND_AUTO_CREATE);
+
+
+
+    }
+
+
+    public Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Log.i("TAG", "-- "+msg);
+            if(content.equals("syncfromclientover")){
+                mCircleAnimator.end();
+                Toast.makeText(FirstActivity.this,"同步完成",Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+
+    class WebServiceReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //Toast.makeText(context,intent.getAction(),Toast.LENGTH_SHORT).show();
+            content = intent.getStringExtra("content");
+            mHandler.sendMessage(mHandler.obtainMessage());
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        unbindService(conn);
+        unregisterReceiver(receiver);
+        super.onDestroy();
     }
 }

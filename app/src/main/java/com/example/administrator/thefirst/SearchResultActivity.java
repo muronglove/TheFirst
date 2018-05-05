@@ -7,10 +7,7 @@ package com.example.administrator.thefirst;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,10 +16,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 
-import com.example.administrator.thefirst.helper.MyDatabaseHelper;
+import com.example.administrator.thefirst.helper.QueryDb;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,9 +37,9 @@ public class SearchResultActivity extends Activity {
         Intent intent = getIntent();
         String str = intent.getStringExtra("str");
 
-        listItems=QueryDb.queryAll(str,this);
+        listItems= QueryDb.queryAll(str,this);
 
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this,listItems,R.layout.item,new String[]{"color","caption","tag","cabinet","imageBitmap"},new int[]{R.id.color,R.id.caption,R.id.tag,R.id.cabinet,R.id.image_item});
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this,listItems,R.layout.timeline_item,new String[]{"uuid","username","password","caption","label","number","color","position","date","imageBitmap","a"},new int[]{R.id.uuid,R.id.username,R.id.password,R.id.caption,R.id.label,R.id.number,R.id.color,R.id.position,R.id.show_time,R.id.image_item,R.id.a});
         simpleAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
             @Override
             public boolean setViewValue(View view, Object data,
