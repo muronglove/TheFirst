@@ -28,36 +28,12 @@ public class  ClassificationActivity extends AppCompatActivity {
     private static final String TAG = "ClassificationActivity";
     
     private List<Classification> list=new ArrayList<>();
-    private SharedPreferences sp;
+
     Button btn_loginout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_classification);
-        sp = this.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        btn_loginout = (Button) findViewById(R.id.btn_loginout);
-        btn_loginout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //清除登录界面的自动登录和记住密码的代码
-                sp.edit().putBoolean("automatic_login",false).commit();
-                sp.edit().putBoolean("rem_isCheck",false).commit();
-                Intent intent = new Intent(ClassificationActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                //finish();
-            }
-        });
-
-        Button btn_invitation=(Button) findViewById(R.id.btn_invitation);
-        btn_invitation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try{
-                AndroidShare.sharedQQ(ClassificationActivity.this);}catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
 
         Log.d(TAG, "onCreate: first of all");
         
@@ -74,7 +50,7 @@ public class  ClassificationActivity extends AppCompatActivity {
         ClassAdapter adapter=new ClassAdapter(list);
         adapter.setOnItemClickListener(new ClassAdapter.OnItemClickListener() {
             @Override
-            public void clicked(int position) {
+            public void OnItemClickListener(int position) {
                 Classification classification=list.get(position);
 //                Toast.makeText(ClassificationActivity.this,classification.getName(),Toast.LENGTH_LONG).show();
                 Intent intent=new Intent(ClassificationActivity.this,SearchResultActivity.class);
@@ -95,7 +71,7 @@ public class  ClassificationActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.item_close:
-                Toast.makeText(ClassificationActivity.this,"classificationActivity clicked",Toast.LENGTH_LONG).show();
+                //Toast.makeText(ClassificationActivity.this,"classificationActivity clicked",Toast.LENGTH_LONG).show();
                 finish();
                 break;
             default:break;
@@ -106,7 +82,7 @@ public class  ClassificationActivity extends AppCompatActivity {
     void init(){
 
         List<String> tags=QueryDb.getTags(ClassificationActivity.this);
-        for(int i=0;i<list.size();i++){
+        for(int i=0;i<tags.size();i++){
             Classification classification=new Classification();
             classification.setName(tags.get(i));
             list.add(classification);

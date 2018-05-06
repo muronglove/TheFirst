@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -20,11 +21,16 @@ import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.thefirst.Classification.ClassificationActivity;
 import com.example.administrator.thefirst.Collection.CollectionAdviceActivity;
 import com.example.administrator.thefirst.Service.WebService;
+import com.example.administrator.thefirst.helper.MyDatabaseHelper;
+import com.example.administrator.thefirst.helper.QueryDb;
+
+import java.util.List;
 
 public class FirstActivity extends AppCompatActivity {
     private ServiceConnection conn;
@@ -34,6 +40,7 @@ public class FirstActivity extends AppCompatActivity {
     private boolean flag = false;
     private ImageView mDynamicCircle;
     private ObjectAnimator mCircleAnimator;
+    MyDatabaseHelper dbHelper;
 
 
     @Override
@@ -44,6 +51,7 @@ public class FirstActivity extends AppCompatActivity {
 
         //绑定服务和广播接收器
         startAndBindService();
+
 
 
 
@@ -59,7 +67,7 @@ public class FirstActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
-            mDynamicCircle = (ImageView) findViewById(R.id.image);
+            mDynamicCircle = (ImageView) findViewById(R.id.image_rotate);
             mCircleAnimator = ObjectAnimator.ofFloat(mDynamicCircle, "rotation", 0.0f, 360.0f);
             mCircleAnimator.setDuration(1000);
             mCircleAnimator.setInterpolator(new LinearInterpolator());
@@ -73,13 +81,25 @@ public class FirstActivity extends AppCompatActivity {
                 }
             });
 
+            CardView cardView = (CardView)findViewById(R.id.activity_first_cardview);
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(FirstActivity.this,ClassificationActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+
 
             Button user = (Button)findViewById(R.id.user);
         user.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent2 = new Intent(FirstActivity.this, ClassificationActivity.class);
-                startActivity(intent2);
+                try{Intent intent = new Intent(FirstActivity.this, UserActivity.class);
+                startActivity(intent);}catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
         //铃铛按钮
@@ -158,6 +178,13 @@ public class FirstActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        List list = QueryDb.showAll(this);
+        TextView text_sum = (TextView)findViewById(R.id.sum);
+        text_sum.setText("目前一共收纳"+list.size()+"件物品");
+    }
 
     public Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {

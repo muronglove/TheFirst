@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -105,15 +106,17 @@ public class AdviceDetailActivity extends AppCompatActivity {
                 Log.d(TAG, "onPostExecute: size:  "+objlist.size());
 
                 TextView text1 =new TextView(AdviceDetailActivity.this);
-                text1.setTextSize(30);
+                text1.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
                 text1.setGravity(Gravity.CENTER);
                 text1.setText((String)objlist.get(0));
+                text1.setTextColor(getResources().getColor(R.color.textColor));
                 linearLayout.addView(text1);
 
                 TextView text2=new TextView(AdviceDetailActivity.this);
                 text2.setGravity(Gravity.CENTER);
-                text2.setTextSize(15);
+                //text2.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
                 text2.setText((String)objlist.get(1));
+                //text2.setTextColor(getResources().getColor(R.color.textColor));
                 linearLayout.addView(text2);
 
                 for(int i=3;i<objlist.size();i++){
@@ -125,7 +128,8 @@ public class AdviceDetailActivity extends AppCompatActivity {
                     }else{
                         TextView textView = new TextView(AdviceDetailActivity.this);
                         textView.setText("    "+((String)obj).trim());
-                        textView.setTextSize(20);
+                        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
+                        textView.setTextColor(getResources().getColor(R.color.textColor));
                         linearLayout.addView(textView);
                     }
                     //Log.d(TAG, "onPostExecute: "+i);

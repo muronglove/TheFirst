@@ -9,6 +9,10 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 
+import com.example.administrator.thefirst.UIController.Titanic;
+import com.example.administrator.thefirst.UIController.TitanicTextView;
+import com.example.administrator.thefirst.UIController.Typefaces;
+
 public class StartActivity extends Activity {
     private ImageView iv_start = null;
     @Override
@@ -20,6 +24,13 @@ public class StartActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_start);
+        TitanicTextView tv = (TitanicTextView) findViewById(R.id.my_text_view);
+
+        // set fancy typeface
+        tv.setTypeface(Typefaces.get(StartActivity.this, "Satisfy-Regular.ttf"));
+
+        // start animation
+        new Titanic().start(tv);
         initImage();
     }
 
@@ -35,6 +46,7 @@ public class StartActivity extends Activity {
             @Override
             public void onAnimationStart(Animation animation) {
                 //可以在这里先进行某些操作
+
             }
 
             @Override

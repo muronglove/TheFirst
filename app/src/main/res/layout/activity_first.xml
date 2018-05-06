@@ -9,45 +9,94 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_below="@+id/view_1"
-            android:layout_marginLeft="65dp"
-            android:src="@drawable/sync" />
-
-
-            <SearchView
-                android:id="@+id/searchView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:iconifiedByDefault="false"
-                android:queryHint="关键词之间用逗号隔开" />
-
+        android:orientation="vertical"
+        android:weightSum="100">
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="140dp"
-           android:layout_gravity="center_vertical"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/sum"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="目前一共收纳x件东西"
-                android:textSize="30dp"
-                android:gravity="center"/>
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+                <SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:iconifiedByDefault="false"
+                    android:searchIcon="@drawable/search"
+                    android:queryHint="关键词之间用逗号隔开" />
+
+                <ImageView
+                    android:id="@+id/image_rotate"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="2"
+                    android:layout_below="@+id/view_1"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/sync"/>
+
+
 
         </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="40"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:cardCornerRadius="8dp"
+            android:elevation="5dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:id="@+id/activity_first_cardview">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="100">
+                <TextView
+                    android:id="@+id/sum"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="70"
+                    android:text="目前一共收纳x件物品"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:textColor="@color/textColor" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="30"
+                    android:gravity="center"
+                    android:text="点击查看"
+                    android:textSize="16sp"
+                    android:textColor="@color/textColor"/>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+
+
+
 
         <LinearLayout
             android:layout_gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            android:layout_weight="50"
+            android:orientation="vertical"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="30dp">
 
             <Button
                 android:id="@+id/sn"
@@ -57,17 +106,17 @@
                 android:background="@drawable/circle"
                 android:gravity="center"
                 android:text="收纳"
-                android:textSize="30dp" />
+                android:textSize="20sp" />
 
         <RelativeLayout
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="50dp"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:orientation="horizontal">
 
         <Button
             android:id="@+id/user"
-            android:layout_width="50dp"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
             android:text="人"
             android:background="@drawable/user"

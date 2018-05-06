@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Binder;
 import android.os.IBinder;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.example.administrator.thefirst.helper.ImgIOJsonOutputUtils;
@@ -74,7 +75,11 @@ public class WebService extends Service implements Runnable {
         //创建数据库
         dbHelper = MyDatabaseHelper.getInstance(this);
         dbHelper.getReadableDatabase();
-
+        try{
+            imeinumber_init = getIMEI(this);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         new Thread(this).start();
     }
 
@@ -356,6 +361,20 @@ public class WebService extends Service implements Runnable {
         editor.putString("imeinumber",imeinumber_init);
         editor.commit();
     }
+    public static String getIMEI(Context context) {
+        try{
+            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
+            String imei = telephonyManager.getDeviceId();
+            return imei;
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+        return null;
+
+
+    }
+
 
 
 }

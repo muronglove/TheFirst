@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.example.administrator.thefirst.Service.WebService;
 import com.example.administrator.thefirst.helper.MyDatabaseHelper;
@@ -73,9 +74,8 @@ public class QueryDb {
     }
 
     public static List<Map<String,Object>> queryByTag(String queryTag,Context context){
-        SharedPreferences sp = context.getSharedPreferences("userinfo",Context.MODE_PRIVATE);
-        String username = sp.getString("username","");
-        String password = sp.getString("username","");
+        String username = WebService.username;
+        String password = WebService.password;
         MyDatabaseHelper dbhelper= MyDatabaseHelper.getInstance(context);
         List<Map<String,Object>> itemList=new ArrayList<>();
         SQLiteDatabase db = dbhelper.getWritableDatabase();
@@ -95,9 +95,8 @@ public class QueryDb {
     }
 
     public static List<Map<String,Object>> queryAll(String queryStr,Context context){
-        SharedPreferences sp = context.getSharedPreferences("userinfo",Context.MODE_PRIVATE);
-        String username = sp.getString("username","");
-        String password = sp.getString("username","");
+        String username = WebService.username;
+        String password = WebService.password;
         MyDatabaseHelper dbhelper= MyDatabaseHelper.getInstance(context);
         List<Map<String,Object>> itemList=new ArrayList<>();
         SQLiteDatabase db = dbhelper.getWritableDatabase();
@@ -128,15 +127,16 @@ public class QueryDb {
     }
 
     public static List<String> getTags(Context context){
-        SharedPreferences sp = context.getSharedPreferences("userinfo",Context.MODE_PRIVATE);
-        String username = sp.getString("username","");
-        String password = sp.getString("username","");
+        String username = WebService.username;
+        String password = WebService.password;
         MyDatabaseHelper dbhelper= MyDatabaseHelper.getInstance(context);
         Set<String> labels=new HashSet<>();
         SQLiteDatabase db = dbhelper.getWritableDatabase();
+        Log.i("TAG","start query tag");
         Cursor cursor=db.query("storage",null,"username = '"+username+"' and password = '"+password+"'",null,null,null,null,null);
         while (cursor.moveToNext()){
             labels.add(cursor.getString(cursor.getColumnIndex("label")));
+            Log.i("TAG",cursor.getString(cursor.getColumnIndex("label")));
     }
         return new ArrayList<String>(labels);
     }

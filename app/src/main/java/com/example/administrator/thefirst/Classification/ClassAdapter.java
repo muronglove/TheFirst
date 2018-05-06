@@ -21,7 +21,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder>{
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener{
-        void clicked(int position);
+        void OnItemClickListener(int position);
     }
     public void setOnItemClickListener(OnItemClickListener listener){
         mOnItemClickListener=listener;
@@ -43,7 +43,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder>{
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mOnItemClickListener.clicked(position);
+                mOnItemClickListener.OnItemClickListener(position);
             }
         });
     }

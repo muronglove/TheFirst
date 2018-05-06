@@ -188,7 +188,7 @@ public class CollectionAdviceActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_close:
-                Toast.makeText(this, "Chicked", Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "Chicked", Toast.LENGTH_LONG).show();
                 finish();
                 break;
             default:
