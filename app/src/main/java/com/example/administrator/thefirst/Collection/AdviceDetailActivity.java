@@ -112,12 +112,21 @@ public class AdviceDetailActivity extends AppCompatActivity {
                 text1.setTextColor(getResources().getColor(R.color.textColor));
                 linearLayout.addView(text1);
 
+//                TextView text_space =new TextView(AdviceDetailActivity.this);
+//                text_space.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
+//                text_space.setGravity(Gravity.CENTER);
+//                text_space.setText("\n");
+//                linearLayout.addView(text_space);
+
                 TextView text2=new TextView(AdviceDetailActivity.this);
                 text2.setGravity(Gravity.CENTER);
                 //text2.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
                 text2.setText((String)objlist.get(1));
                 //text2.setTextColor(getResources().getColor(R.color.textColor));
                 linearLayout.addView(text2);
+
+
+                //linearLayout.addView(text_space);
 
                 for(int i=3;i<objlist.size();i++){
                     Object obj=objlist.get(i);

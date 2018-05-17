@@ -150,6 +150,9 @@ public class NewCamera extends AppCompatActivity {
                         @Override
                         public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
                             TextView btn_date = (TextView) findViewById(R.id.text_date);
+                            if(minute.length()==1){
+                                minute = "0"+minute;
+                            }
                             btn_date.setText(year + "-" + month + "-" + day + " "
                                     + hour + ":" + minute);
 
@@ -222,6 +225,10 @@ public class NewCamera extends AppCompatActivity {
                 //存储到数据库
             case R.id.camera_save_action:
                 ContentValues values = new ContentValues();
+                if(mBitmap==null){
+                    Toast.makeText(this,"请先选择照片",Toast.LENGTH_SHORT).show();
+                    break;
+                }
                 ByteArrayOutputStream output = new ByteArrayOutputStream();
                 mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
 

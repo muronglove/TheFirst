@@ -30,7 +30,7 @@ public class QueryDb {
     private static void addItem(Cursor cursor,List<Map<String,Object>> itemList){
         Map<String,Object> listItem = new HashMap<String,Object>();
 
-        String uuid = "uuid:  "+cursor.getString(cursor.getColumnIndex("uuid"));
+        String uuid = cursor.getString(cursor.getColumnIndex("uuid"));
         String username = "用户名:  "+cursor.getString(cursor.getColumnIndex("username"));
         String password = "密码:  "+cursor.getString(cursor.getColumnIndex("password"));
         String caption = "标题:  "+cursor.getString(cursor.getColumnIndex("caption"));
@@ -66,7 +66,7 @@ public class QueryDb {
         List<Map<String,Object>> itemList=new ArrayList<>();
         SQLiteDatabase db = dbhelper.getWritableDatabase();
 
-        Cursor cursor=db.query("storage",null,"username = '"+username+"' and password = '"+password+"'",null,null,null,null,null);
+        Cursor cursor=db.query("storage",null,"username = '"+username+"' and password = '"+password+"' and a <> 1 and a <> 8",null,null,null,null,null);
         while(cursor.moveToNext()){
             addItem(cursor,itemList);
         }
@@ -79,7 +79,7 @@ public class QueryDb {
         MyDatabaseHelper dbhelper= MyDatabaseHelper.getInstance(context);
         List<Map<String,Object>> itemList=new ArrayList<>();
         SQLiteDatabase db = dbhelper.getWritableDatabase();
-        Cursor cursor=db.query("storage",null,"username = '"+username+"' and password = '"+password+"'",null,null,null,null,null);
+        Cursor cursor=db.query("storage",null,"username = '"+username+"' and password = '"+password+"' and a <> 1 and a <> 8",null,null,null,null,null);
         while(cursor.moveToNext()){
             boolean flag = false;
 
@@ -100,7 +100,7 @@ public class QueryDb {
         MyDatabaseHelper dbhelper= MyDatabaseHelper.getInstance(context);
         List<Map<String,Object>> itemList=new ArrayList<>();
         SQLiteDatabase db = dbhelper.getWritableDatabase();
-        Cursor cursor=db.query("storage",null,"username = '"+username+"' and password = '"+password+"'",null,null,null,null,null);
+        Cursor cursor=db.query("storage",null,"username = '"+username+"' and password = '"+password+"' and a <> 1 and a <> 8",null,null,null,null,null);
         String[] array =  queryStr.split("\\s+");
         while(cursor.moveToNext()){
             boolean flag = false;
@@ -133,13 +133,16 @@ public class QueryDb {
         Set<String> labels=new HashSet<>();
         SQLiteDatabase db = dbhelper.getWritableDatabase();
         Log.i("TAG","start query tag");
-        Cursor cursor=db.query("storage",null,"username = '"+username+"' and password = '"+password+"'",null,null,null,null,null);
+        Cursor cursor=db.query("storage",null,"username = '"+username+"' and password = '"+password+"' and a <> 1 and a <> 8",null,null,null,null,null);
         while (cursor.moveToNext()){
             labels.add(cursor.getString(cursor.getColumnIndex("label")));
             Log.i("TAG",cursor.getString(cursor.getColumnIndex("label")));
     }
         return new ArrayList<String>(labels);
     }
+
+
+
 
 
 }

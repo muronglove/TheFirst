@@ -119,13 +119,12 @@ public class FirstActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if(searchView.getQuery().toString().equals("all")){
-                    Intent intent = new Intent(FirstActivity.this,DisplayActivity.class);
-                    startActivity(intent);
-                } else{
+                try{
                     Intent intent = new Intent(FirstActivity.this,SearchResultActivity.class);
                     intent.putExtra("str",searchView.getQuery().toString());
                     startActivity(intent);
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
                 return false;
             }

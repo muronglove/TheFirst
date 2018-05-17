@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
+import com.example.administrator.thefirst.DisplayActivity;
 import com.example.administrator.thefirst.LoginActivity;
 import com.example.administrator.thefirst.helper.QueryDb;
 import com.example.administrator.thefirst.R;
@@ -43,6 +45,14 @@ public class  ClassificationActivity extends AppCompatActivity {
         init();
 
         Log.d(TAG, "onCreate: after init");
+        CardView cardView = (CardView)findViewById(R.id.search_all);
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ClassificationActivity.this, DisplayActivity.class);
+                startActivity(intent);
+            }
+        });
         
         RecyclerView recyclerView=findViewById(R.id.recyclerview_classification);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
@@ -59,6 +69,7 @@ public class  ClassificationActivity extends AppCompatActivity {
             }
         });
         recyclerView.setAdapter(adapter);
+
     }
 
     @Override

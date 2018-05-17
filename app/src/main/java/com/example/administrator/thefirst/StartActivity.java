@@ -24,13 +24,15 @@ public class StartActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_start);
-        TitanicTextView tv = (TitanicTextView) findViewById(R.id.my_text_view);
+        //水漫效果
+//        TitanicTextView tv = (TitanicTextView) findViewById(R.id.my_text_view);
+//
+//        // set fancy typeface
+//        tv.setTypeface(Typefaces.get(StartActivity.this, "Satisfy-Regular.ttf"));
+//
+//        // start animation
+//        new Titanic().start(tv);
 
-        // set fancy typeface
-        tv.setTypeface(Typefaces.get(StartActivity.this, "Satisfy-Regular.ttf"));
-
-        // start animation
-        new Titanic().start(tv);
         initImage();
     }
 
@@ -38,8 +40,8 @@ public class StartActivity extends Activity {
         iv_start = (ImageView) findViewById(R.id.iv_start);
         iv_start.setImageResource(R.drawable.start);
         //进行缩放动画
-        ScaleAnimation scaleAnimation = new ScaleAnimation(1.4f, 1.0f, 1.4f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        scaleAnimation.setDuration(4000);
+        ScaleAnimation scaleAnimation = new ScaleAnimation(1.24f, 1.0f, 1.24f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scaleAnimation.setDuration(2400);
         //动画播放完成后保持形状
         scaleAnimation.setFillAfter(true);
         scaleAnimation.setAnimationListener(new Animation.AnimationListener() {

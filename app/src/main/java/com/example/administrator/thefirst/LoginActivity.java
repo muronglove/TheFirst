@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -46,14 +47,20 @@ public class LoginActivity extends Activity {
     private ServiceConnection conn;
     private WebService webService;
     private WebServiceReceiver receiver;
+    private String imeinumber;
 
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //绑定服务和广播接收器
+        startAndBindService();
         setContentView(R.layout.activity_login);
+
         sp = getSharedPreferences("userInfo", Context.MODE_MULTI_PROCESS);
+        imeinumber = getIMEI(LoginActivity.this);
+        Log.i("TAG",imeinumber);
 
         //对but进行实例化
         login = (Button) findViewById(R.id.btn_login);
@@ -66,8 +73,7 @@ public class LoginActivity extends Activity {
         et2 = (EditText) findViewById(R.id.password);
 
 
-        //绑定服务和广播接收器
-        startAndBindService();
+
 
         remember_key.setChecked(true);//设置记住密码初始化为true
 
@@ -101,7 +107,7 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 userNameValue = et1.getText().toString();
                 passwordValue = et2.getText().toString();
-                webService.login(userNameValue,passwordValue);
+                webService.login(userNameValue,passwordValue,imeinumber);
             }
         });
 
@@ -111,7 +117,7 @@ public class LoginActivity extends Activity {
             public void onClick(View view) {
                 userNameValue = et1.getText().toString();
                 passwordValue = et2.getText().toString();
-                webService.register(userNameValue,passwordValue);
+                webService.register(userNameValue,passwordValue,imeinumber);
             }
         });
 
@@ -125,7 +131,7 @@ public class LoginActivity extends Activity {
             //tv_msg.setText(tv_msg.getText().toString() + content);
 
             try{if(content.equals("login succeeded")){
-                webService.setUsernameAndPassword(userNameValue,passwordValue);
+                webService.setUsernameAndPassword(userNameValue,passwordValue,imeinumber);
                 Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
 
                 //登录成功和记住密码框为选中状态才保存用户信息
@@ -190,7 +196,6 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
-                //返回一个MsgService对象
                 webService = ((WebService.WebBinder)service).getService();
 
             }
@@ -221,6 +226,22 @@ public class LoginActivity extends Activity {
             mHandler.sendMessage(mHandler.obtainMessage());
         }
     }
+
+
+    public static String getIMEI(Context context) {
+        try{
+            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
+            String imei = telephonyManager.getDeviceId();
+            return imei;
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+        return null;
+
+
+    }
+
 
 
 }

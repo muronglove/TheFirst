@@ -30,17 +30,16 @@ import java.net.Socket;
 public class WebService extends Service implements Runnable {
     private MyDatabaseHelper dbHelper;
 
-    private static final String HOST = "192.168.97.59";
+    private static final String HOST = "47.106.156.177";
     private static final int PORT = 9999;
     private Socket socket = null;
     private BufferedReader in = null;
     private PrintWriter out = null;
     private String content = "";
-    private String imeinumber_init = "3";
 
     public static  String username;
     public static String password;
-    private String imeinumber;
+    public static  String imeinumber;
     private SharedPreferences sp;
 
 
@@ -75,22 +74,17 @@ public class WebService extends Service implements Runnable {
         //创建数据库
         dbHelper = MyDatabaseHelper.getInstance(this);
         dbHelper.getReadableDatabase();
-        try{
-            imeinumber_init = getIMEI(this);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
         new Thread(this).start();
     }
 
-    public void register(String username, String password){
+    public void register(String username, String password,String imeinumber){
         try {
 
             JSONObject object = new JSONObject();
             object.put("cmd", "register");
             object.put("username", username);
             object.put("password", password);
-            object.put("imei", imeinumber_init);
+            object.put("imei", imeinumber);
             if (socket.isConnected()) {
                 if (!socket.isOutputShutdown()) {
                     out.println(object.toString());
@@ -112,14 +106,14 @@ public class WebService extends Service implements Runnable {
 //        }
 //    }
 
-    public void login(String username,String password){
+    public void login(String username,String password,String imeinumber){
         try {
 
             JSONObject object = new JSONObject();
             object.put("cmd", "login");
             object.put("username", username);
             object.put("password",password);
-            object.put("imei", imeinumber_init);
+            object.put("imei", imeinumber);
 
             if (socket.isConnected()) {
                 if (!socket.isOutputShutdown()) {
@@ -180,7 +174,11 @@ public class WebService extends Service implements Runnable {
                         true);
             } catch (Exception ex) {
                 ex.printStackTrace();
+                Intent intent = new Intent("sendContent");
+                intent.putExtra("content", "与服务器连接异常，请检查您的网络");
+                sendBroadcast(intent);
                 //ShowDialog("登陆异常:" + ex.getMessage());
+
             }
             try {
                 while (true) {
@@ -350,30 +348,18 @@ public class WebService extends Service implements Runnable {
         }
     }
 
-    public void setUsernameAndPassword(String username,String password){
+    public void setUsernameAndPassword(String username,String password,String imeinumber){
         SharedPreferences sp = getSharedPreferences("service", Context.MODE_MULTI_PROCESS);
         SharedPreferences.Editor editor = sp.edit();
         this.username = username;
         this.password = password;
-        this.imeinumber = imeinumber_init;
+        this.imeinumber = imeinumber;
         editor.putString("username",username);
         editor.putString("password",password);
-        editor.putString("imeinumber",imeinumber_init);
+        editor.putString("imeinumber",imeinumber);
         editor.commit();
     }
-    public static String getIMEI(Context context) {
-        try{
-            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
-            String imei = telephonyManager.getDeviceId();
-            return imei;
-        }catch (Exception e){
-            e.printStackTrace();
 
-        }
-        return null;
-
-
-    }
 
 
 

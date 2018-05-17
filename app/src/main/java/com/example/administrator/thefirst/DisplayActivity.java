@@ -5,16 +5,23 @@ package com.example.administrator.thefirst;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 
+import com.example.administrator.thefirst.Adapter.DisplayAdapter;
 import com.example.administrator.thefirst.helper.QueryDb;
+import com.example.administrator.thefirst.helper.SimpleItemTouchHelperCallback;
 
 import java.util.List;
 import java.util.Map;
@@ -24,27 +31,28 @@ public class DisplayActivity extends Activity {
     //private MyDatabaseHelper dbhelper;
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        try{super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_display);
 
         List<Map<String,Object>> listItems= QueryDb.showAll(this);
         Log.d(TAG, "onCreate: "+listItems.size());
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this,listItems,R.layout.timeline_item,new String[]{"uuid","username","password","caption","label","number","color","position","date","imageBitmap","a"},new int[]{R.id.uuid,R.id.username,R.id.password,R.id.caption,R.id.label,R.id.color,R.id.number,R.id.position,R.id.show_time,R.id.image_item,R.id.a});
-        simpleAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
-            @Override
-            public boolean setViewValue(View view, Object data,
-                                        String textRepresentation) {
-                // TODO Auto-generated method stub
-                if (view instanceof ImageView && data instanceof Bitmap) {
-                    ImageView i = (ImageView) view;
-                    i.setImageBitmap((Bitmap) data);
-                    return true;
-                }
-                return false;
-            }
-        });
-        ListView myList = (ListView)findViewById(R.id.myList);
-        myList.setAdapter(simpleAdapter);
+
+
+        RecyclerView recyclerView=findViewById(R.id.recyclerview_display);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        DisplayAdapter adapter = new DisplayAdapter(listItems,DisplayActivity.this);
+
+        //先实例化Callback
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
+        //用Callback构造ItemtouchHelper
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        //调用ItemTouchHelper的attachToRecyclerView方法建立联系
+        touchHelper.attachToRecyclerView(recyclerView);
+        recyclerView.setAdapter(adapter);
+        }catch (Exception e){
+        e.printStackTrace();
+    }
     }
 }
