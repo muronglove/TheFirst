@@ -11,16 +11,17 @@
         android:layout_alignParentTop="true"
         android:adjustViewBounds="true"
         android:scaleType="fitXY" />
-    <com.example.administrator.thefirst.UIController.TitanicTextView
-        android:id="@+id/my_text_view"
-        android:text="Make life simpler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="200dp"
-        android:textColor="#212121"
-        android:textSize="50dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"/>
+    <!--水漫效果-->
+    <!--<com.example.administrator.thefirst.UIController.TitanicTextView-->
+        <!--android:id="@+id/my_text_view"-->
+        <!--android:text="Make life simpler"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_marginTop="200dp"-->
+        <!--android:textColor="#212121"-->
+        <!--android:textSize="50dp"-->
+        <!--android:paddingLeft="5dp"-->
+        <!--android:paddingRight="5dp"/>-->
 
 </RelativeLayout>
