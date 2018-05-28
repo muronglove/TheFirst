@@ -19,6 +19,8 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="#000"
+            android:gravity="center"
+            android:padding="5dp"
             android:id="@+id/dialog_caption"/>
     </LinearLayout>
 

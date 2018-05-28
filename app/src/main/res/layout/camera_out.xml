@@ -8,6 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:gravity="center"
+        android:background="@drawable/buttoncorner"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:text="拍照"
         android:onClick="takePhoto"
         android:textSize="18sp"
@@ -18,6 +21,9 @@
         android:layout_height="45dp"
         android:gravity="center"
         android:text="从相册选择"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/buttoncorner"
         android:textSize="18sp"
         android:layout_gravity="center"/>
 
@@ -28,6 +34,9 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="取消"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/buttoncorner"
         android:textSize="18sp"
         android:layout_gravity="center"/>
 

@@ -11,8 +11,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <application
         android:allowBackup="true"
-        android:icon="@drawable/socialist"
-        android:label="社会主义核心价值观"
+        android:icon="@drawable/appicon"
+        android:label="收纳记录@RedAnt"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">

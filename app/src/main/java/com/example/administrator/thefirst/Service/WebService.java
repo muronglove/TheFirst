@@ -30,7 +30,7 @@ import java.net.Socket;
 public class WebService extends Service implements Runnable {
     private MyDatabaseHelper dbHelper;
 
-    private static final String HOST = "47.106.156.177";
+    private static final String HOST = "192.168.119.179";
     private static final int PORT = 9999;
     private Socket socket = null;
     private BufferedReader in = null;
