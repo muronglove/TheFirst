@@ -104,7 +104,7 @@ public class NewCamera extends AppCompatActivity {
         dbHelper.getReadableDatabase();
 
         if (client==null){
-            client = new VisionServiceRestClient("cf19c4bd40f24135bb29bd2cee201da8","https://westcentralus.api.cognitive.microsoft.com/vision/v2.0");
+            client = new VisionServiceRestClient("eda5ed39055740d2b42dc964e276076b","https://westcentralus.api.cognitive.microsoft.com/vision/v1.0");
         }
         mEditText = (EditText)findViewById(R.id.camera_edittext);
 
@@ -373,9 +373,12 @@ public class NewCamera extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(BookInfo bookInfo) {
+            try{
             super.onPostExecute(bookInfo);
             EditText editText = (EditText) findViewById(R.id.camera_edittext);
-            editText.setText(bookInfo.getTitle());
+            editText.setText(bookInfo.getTitle());}catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
